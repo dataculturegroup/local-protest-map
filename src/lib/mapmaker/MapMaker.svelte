@@ -30,7 +30,7 @@
       allEvents = data.ccc;
     } 
     return allEvents.filter(
-      row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radius)
+      row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radiusMiles)
     );
   });
 
@@ -39,6 +39,7 @@
   function updateStep(newStep) { step = newStep; }
 
   onMount( async ()=> {
+    // load and normalize data from various sources
     data.acled = await getData(ACLED_URL);
     data.acled = data.acled.map(row => ({
       lat: row.latitude, lon: row.longitude, date: row.event_date,

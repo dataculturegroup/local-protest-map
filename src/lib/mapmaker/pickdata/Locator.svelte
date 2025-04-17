@@ -15,12 +15,12 @@ function handleAutoLocate() {
 }
 
 function handleStateSelected() {
-  const loc = stateLocations[selectedState];
-  if (value.length == 0) { 
+  const latlon = stateLocations[selectedState];
+  if (latlon.length == 0) { 
     coords = [];  // reset to nothing
     return; 
   }
-  coords = [loc[1], loc[0]]; // lat, long
+  coords = [latlon[1], latlon[0]]; // lat, lon
 }
 </script>
 
