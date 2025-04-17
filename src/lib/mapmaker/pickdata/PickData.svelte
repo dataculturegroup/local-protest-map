@@ -2,7 +2,7 @@
   import Locator from "./Locator.svelte";
   import DateInput from './DateInput.svelte'
   
-  let { mapSettings=$bindable(mapSettings), updateStep } = $props();
+  let { mapSettings=$bindable(mapSettings), updateStep, events } = $props();
 
   let dataValid = $derived(() => {
     return (mapSettings.coords.length > 0);
@@ -12,12 +12,12 @@
 
 <div class="row">
   <div class="col-md-6">
-    <form>
+    <form class="form-inline">
 
       <div class="form-group">
         <label for="dataSource">Data Source</label>
         
-        <select class="form-control" id="dataSource" aria-describedby="dataSourceHelp">
+        <select class="form-control" id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
           <option value="ACLED">ACLED (Armed Conflict Location & Event Data</option>
         </select>
 
@@ -26,7 +26,14 @@
 
       <div class="form-group">
         <label for="dataSource">Area</label>
-
+        Within 
+        <select class="form-control" id="radius" name="radius" bind:value={mapSettings.radiusMiles}>
+          <option value=20>20 miles</option>
+          <option value=50>50 miles</option>
+          <option value=75>75 miles</option>
+          <option value=100>100 miles</option>
+        </select>
+         of 
         <Locator bind:coords={mapSettings.coords}/>
         <small id="dataSourceHelp" class="form-text text-muted">Where do you want the map to center?
           {#if mapSettings.coords.length > 0}
@@ -51,25 +58,23 @@
 
     </form>
 
+    {#if dataValid()}
+      {#if events.length == 0}
+        <div class="alert alert-warning" role="alert">
+          No protests found in this area. Try expanding your radius.
+        </div>
+      {:else if events.length > 0}
+        <div class="alert alert-success" role="alert">
+          Matches {events.length} protests in the area.
+        </div>
+      {/if}
+    {/if}
+
     <div class="controls">
-      <button class="btn btn-outline-dark primary" onclick={() => updateStep(1)} disabled={!dataValid()}>
+      <button class="btn btn-outline-dark primary btn-lg" onclick={() => updateStep(1)} disabled={!dataValid()}>
         Next
       </button>
     </div>
     
   </div>
 </div>
-
-<style>
-label {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-  display: block;
-}
-.form-group {
-  margin-bottom: 1rem;
-}
-small {
-  display: block;
-}
-</style>

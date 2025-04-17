@@ -39,3 +39,17 @@ button.primary{
     cursor: not-allowed;
   }
 }
+
+form {
+  label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  .form-group {
+    margin-bottom: 2rem;
+  }
+  small {
+    display: block;
+  }
+}

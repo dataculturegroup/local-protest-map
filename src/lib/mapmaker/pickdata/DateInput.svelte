@@ -14,4 +14,4 @@
   $: output(internal);
 </script>
 
-<input type="date" bind:value={internal} />
+<input class="form-control" type="date" bind:value={internal} />

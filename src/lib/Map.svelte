@@ -1,7 +1,7 @@
 <script>
 import { onMount } from 'svelte';
 import L from 'leaflet';
-let { center, zoom, markers } = $props();  // center on coords if they are passed in
+let { center, zoom, markers, width, height } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
@@ -14,7 +14,7 @@ const stamenToner = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner
 });
 
 function createMap(container) {
-  map = L.map(container, {preferCanvas: true }).setView(center, zoom);
+  map = L.map(container, {preferCanvas: true, scrollWheelZoom: false, zoomControl: false }).setView(center, zoom);
   stamenToner.addTo(map);
   markerLayer = L.layerGroup().addTo(map);
   addMarkers(markers);
@@ -25,11 +25,20 @@ function addMarkers(markerData) {
   markerLayer.clearLayers();
   markerData.forEach(function(point) {
     const marker = L.marker([point.latitude, point.longitude]);
-    let actors = point.assoc_actor_1 ? point.assoc_actor_1 : '';
     marker.bindPopup(`<b>${point.event_date} in ${point.location}, ${point.admin1}</b>`+
-                     `<br /><i>${actors}</i><br />${point.notes}<br />`);
+                     `<br /><i>${trimToLength(point.assoc_actor_1, 100)}</i><br />${trimToLength(point.notes, 200)}<br />`);
     markerLayer.addLayer(marker);
   });
+}
+
+function trimToLength(str, length) {
+  if (!str) {
+    return "";
+  }
+  if (str.length > length) {
+    return str.substring(0, length) + '...';
+  }
+  return str;
 }
 
 function mapAction(container) {
@@ -39,18 +48,21 @@ function mapAction(container) {
 // make sure that the map content and view is updated when new data is passed in
 $effect(() => {
   if (!map || !markerLayer) return;
+  map.invalidateSize();
   map.setView(center, zoom);
   markerLayer.clearLayers();
   addMarkers(markers);
 });
 </script>
 
-<div class="map" use:mapAction></div>
+<div id="mapWrapper" style="width: {width}px; height: {height}px;">
+  <div class="map" use:mapAction></div>
+</div>
 
 <style>
 .map {
-  height: 600px;
-  width: 600px;
+  width: 100%;
+  height: 100%;
   border: 1px solid #000;
 }
 </style>
