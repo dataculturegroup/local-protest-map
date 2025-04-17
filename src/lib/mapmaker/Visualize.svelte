@@ -46,6 +46,7 @@
         markers={events} 
         width={mapSettings.width}
         height={mapSettings.height}
+        source={mapSettings.source}
       />
     </div>
   </div>

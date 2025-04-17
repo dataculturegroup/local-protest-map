@@ -1,13 +1,13 @@
 <script>
 import { onMount } from 'svelte';
 import L from 'leaflet';
-let { center, zoom, markers, width, height } = $props();  // center on coords if they are passed in
+let { source, center, zoom, markers, width, height } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
 
 const stamenToner = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> <a href="https://stamen.com/" target="_blank">&copy; Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+  attribution: '',
   subdomains: 'abcd',
     minZoom: 0,
     maxZoom: 20
@@ -55,15 +55,46 @@ $effect(() => {
 });
 </script>
 
-<div id="mapWrapper" style="width: {width}px; height: {height}px;">
+<figure id="mapWrapper" style="width: {width}px; height: {height}px;">
   <div class="map" use:mapAction></div>
-</div>
+  <figcaption>
+    Created with <a href="https://dataculture.northeastern.edu/protest-map/">Protest Map</a>. Data via
+    {#if source == "ACLED"}
+      <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
+    {:else if source == "CCC"}
+      <a href="https://crowdcounting.org/" target=_new>Crowd Counting Consortium</a>
+    {/if}.
+    <br />
+    Map tiles &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> <a href="https://stamen.com/" target="_blank">&copy; Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+  </figcaption>
+</figure>
 
 <style>
 .map {
   width: 100%;
   height: 100%;
-  border: 1px solid #000;
+  border: 1px solid #999;
+}
+figure {
+  margin: 15px;
+}
+figcaption {
+  color: #fff;
+  padding: 5px;
+  font-size: 0.7rem;
+  background-color: #999;
+  a {
+    color: #fff;
+    &:hover {
+      color: #fff;
+    }
+    &:active {
+      color: #fff;
+    }
+    &:visited {
+      color: #eee;
+    }
+  }
 }
 </style>
 

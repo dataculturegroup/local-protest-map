@@ -18,8 +18,8 @@
     radiusMiles: '50',
     startDate: dayjs('2025-01-01', 'YYYY-MM-DD').toDate(), // hack to get GMT date
     endDate: new Date(), // default to today
-    width: 800,
-    height: 400
+    width: 700,
+    height: 350
   })
   let data = $state({acled: [], ccc: []});   // filled in by onMount
   let events = $derived.by(() => {
