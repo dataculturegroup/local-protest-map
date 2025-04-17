@@ -7,8 +7,8 @@
   import Footer from './lib/Footer.svelte'
   import { getData, isWithinRadius } from './lib/util/data.js';
 
-  const ACLED_URL = "2025-01-01-2025-04-10-North_America-United_States.csv";
-  const CCC_URL = "ccc-phase3-public.csv";
+  const ACLED_URL = "acled-latest.csv";
+  const CCC_URL = "ccc-latest.csv";
 
   let urlMapSettings = $state(null);
   let loadingData = $state(true);
