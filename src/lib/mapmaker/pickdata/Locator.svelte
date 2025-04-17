@@ -20,11 +20,10 @@ function handleStateSelected() {
 }
 </script>
 
-<button id="locateMe" class="btn-primary" onclick={() => handleAutoLocate()}>Locate Me</button>
-or 
-Pick a state
+<button id="locateMe" class="btn btn-outline-dark" onclick={() => handleAutoLocate()}>Locate Me</button>
+or pick a state
 
-<select onchange={handleStateSelected} bind:value={selectedState}>
+<select id="stateChoices" onchange={handleStateSelected} bind:value={selectedState} aria-describedby="stateChoicesHelp" >
   <StateOptions />
 </select>
 

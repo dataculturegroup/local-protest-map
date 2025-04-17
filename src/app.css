@@ -1,10 +1,41 @@
 :root {
   font-family: Avenir, Helvetica, Arial, sans-serif;
+  --bright-blue: #15F2C3;
+  --peaceful-blue: #98E8D2;
+  --tan: #DAC4B4;
+  --salmon: #CB7C84;
+  --purple: #5F19A6;
+  --palette-primary: var(--purple);
+  --palette-secondary: var(--salmon);
+  --palette-tertiary: var(--bright-blue);
+  --palette-light-background: var(--tan);
 }
 
-body {
-  margin: 1rem;
+h1 {
+  font-family: "Special Gothic Expanded One", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 3rem;
+}
+h2 {
+  font-size: 2rem;
+}
+h3 {
+  font-size: 1.5rem;
 }
 
-#app {
+button.primary{
+  background-color: var(--palette-primary);
+  color: white;
+}
+
+.controls {
+  display: block;
+  margin: 2rem 0 0 0;
+
+  :disabled {
+    background-color: grey;
+    color: white;
+    cursor: not-allowed;
+  }
 }

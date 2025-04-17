@@ -15,6 +15,7 @@
     "vite": "^6.2.0"
   },
   "dependencies": {
+    "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
     "papaparse": "^5.5.2"
   }
