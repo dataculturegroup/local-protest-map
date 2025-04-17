@@ -9,6 +9,7 @@
   import Embed from './Embed.svelte';
 
   const ACLED_URL = "2025-01-01-2025-04-10-North_America-United_States.csv";
+  const CCC_URL = "ccc-phase3-public.csv";
 
   let loadingData = $state(true);
   let mapSettings = $state({
@@ -20,15 +21,17 @@
     width: 800,
     height: 400
   })
-  let data = $state({
-    acled: [],
-  })
+  let data = $state({acled: [], ccc: []});   // filled in by onMount
   let events = $derived.by(() => {
+    let allEvents = [] 
     if (mapSettings.source == 'ACLED') {
-      return data.acled.filter(
-        row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.latitude, row.longitude, mapSettings.radius)
-      );
-    }
+      allEvents = data.acled;
+    } else if (mapSettings.source == 'CCC') {
+      allEvents = data.ccc;
+    } 
+    return allEvents.filter(
+      row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radius)
+    );
   });
 
   let step = $state(0);
@@ -37,6 +40,17 @@
 
   onMount( async ()=> {
     data.acled = await getData(ACLED_URL);
+    data.acled = data.acled.map(row => ({
+      lat: row.latitude, lon: row.longitude, date: row.event_date,
+      location: `${row.location}, ${row.admin1}`, actor: row.assoc_actor_1,
+      summary: row.notes
+    }));
+    data.ccc = await getData(CCC_URL);
+    data.ccc = data.ccc.map(row => ({
+      lat: row.lat, lon: row.lon, date: row.date,
+      location: `${row.resolved_locality}, ${row.resolved_state}`, actor: row.organizations,
+      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`
+    }));
     loadingData = false;
   });
 

@@ -24,9 +24,9 @@ function addMarkers(markerData) {
   if (!map || !markerLayer) return;
   markerLayer.clearLayers();
   markerData.forEach(function(point) {
-    const marker = L.marker([point.latitude, point.longitude]);
-    marker.bindPopup(`<b>${point.event_date} in ${point.location}, ${point.admin1}</b>`+
-                     `<br /><i>${trimToLength(point.assoc_actor_1, 100)}</i><br />${trimToLength(point.notes, 200)}<br />`);
+    const marker = L.marker([point.lat, point.lon]);
+    marker.bindPopup(`<b>${point.date} in ${point.location}</b>`+
+                     `<br /><i>${trimToLength(point.actor, 100)}</i><br />${trimToLength(point.summary, 200)}<br />`);
     markerLayer.addLayer(marker);
   });
 }

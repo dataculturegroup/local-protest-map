@@ -19,6 +19,7 @@
         
         <select class="form-control" id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
           <option value="ACLED">ACLED (Armed Conflict Location & Event Data</option>
+          <option value="CCC">CCC (Crowd Counting Consortium @ Harvard Kennedy School)</option>
         </select>
 
         <small id="dataSourceHelp" class="form-text text-muted">Which data about protests do you want to map?</small>
