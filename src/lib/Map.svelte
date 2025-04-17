@@ -62,7 +62,7 @@ $effect(() => {
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
     {:else if source == "CCC"}
-      <a href="https://crowdcounting.org/" target=_new>Crowd Counting Consortium</a>
+      <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium - Ash Center - Harvard Kennedy School.</a>
     {/if}.
     <br />
     Map tiles &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> <a href="https://stamen.com/" target="_blank">&copy; Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
