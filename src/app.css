@@ -53,3 +53,8 @@ form {
     display: block;
   }
 }
+
+section {
+  border-left: 1px solid var(--palette-tertiary);
+  padding-left: 1rem
+}

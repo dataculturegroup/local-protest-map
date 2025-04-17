@@ -1,5 +1,6 @@
 <script>
 import { onMount } from 'svelte';
+import { trimToLength } from './util/string';
 import L from 'leaflet';
 let { source, center, zoom, markers, width, height } = $props();  // center on coords if they are passed in
 
@@ -31,16 +32,6 @@ function addMarkers(markerData) {
   });
 }
 
-function trimToLength(str, length) {
-  if (!str) {
-    return "";
-  }
-  if (str.length > length) {
-    return str.substring(0, length) + '...';
-  }
-  return str;
-}
-
 function mapAction(container) {
   createMap(container); 
 }
@@ -55,9 +46,9 @@ $effect(() => {
 });
 </script>
 
-<figure id="mapWrapper" style="width: {width}px; height: {height}px;">
-  <div class="map" use:mapAction></div>
-  <figcaption>
+<figure id="mapWrapper">
+  <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
+  <figcaption  style="width: {width}px;">
     Created with <a href="https://dataculture.northeastern.edu/protest-map/">Protest Map</a>. Data via
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
@@ -75,10 +66,9 @@ $effect(() => {
   height: 100%;
   border: 1px solid #999;
 }
-figure {
-  margin: 15px;
-}
+
 figcaption {
+  display: block;
   color: #fff;
   padding: 5px;
   font-size: 0.7rem;

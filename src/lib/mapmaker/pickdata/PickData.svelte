@@ -1,7 +1,10 @@
 <script>
   import Locator from "./Locator.svelte";
-  import DateInput from './DateInput.svelte'
-  
+  import DateInput from './DateInput.svelte';
+  import EventTable from './EventTable.svelte';
+
+  const PREVIEW_SAMPLE_SIZE = 20;
+
   let { mapSettings=$bindable(mapSettings), updateStep, events } = $props();
 
   let dataValid = $derived(() => {
@@ -11,7 +14,7 @@
 </script>
 
 <div class="row">
-  <div class="col-md-6">
+  <div class="col-md-4">
     <form class="form-inline">
 
       <div class="form-group">
@@ -59,18 +62,6 @@
 
     </form>
 
-    {#if dataValid()}
-      {#if events.length == 0}
-        <div class="alert alert-warning" role="alert">
-          No protests found in this area. Try expanding your radius.
-        </div>
-      {:else if events.length > 0}
-        <div class="alert alert-success" role="alert">
-          Matches {events.length} protests in the area.
-        </div>
-      {/if}
-    {/if}
-
     <div class="controls">
       <button class="btn btn-outline-dark primary btn-lg" onclick={() => updateStep(1)} disabled={!dataValid()}>
         Next
@@ -78,4 +69,23 @@
     </div>
     
   </div>
+
+  <div class="col-md-8">
+    <section>
+
+      {#if dataValid()}
+        {#if events.length == 0}
+          <p>No protests found in this area. Try expanding your radius.</p>
+        {:else if events.length > 0}
+          <p>Matches <strong>{events.length} protests</strong> in the area. Here's a sample of {PREVIEW_SAMPLE_SIZE} random ones:</p>
+          <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
+        {/if}
+      {:else}
+        <p>Preview not available until you pick a location.</p>
+      {/if}
+    </section>
+
+  </div>
+
+
 </div>

@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { getData, isWithinRadius } from './data.js';
+  import { getData, isWithinRadius } from '../util/data.js';
   import dayjs from 'dayjs';
 
   import Navigation from './Navigation.svelte';
@@ -14,6 +14,7 @@
   let loadingData = $state(true);
   let mapSettings = $state({
     source: 'ACLED',
+    zoom: '8',
     coords: [],
     radiusMiles: '50',
     startDate: dayjs('2025-01-01', 'YYYY-MM-DD').toDate(), // hack to get GMT date
@@ -76,7 +77,7 @@
       {:else if step == 1}
         <Visualize bind:mapSettings {updateStep} {events} />
       {:else if step == 2}
-        <Embed bind:mapSettings />
+        <Embed {mapSettings} {events} />
       {/if}
     
     {/if}
