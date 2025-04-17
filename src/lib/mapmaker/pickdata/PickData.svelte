@@ -3,7 +3,7 @@
   import DateInput from './DateInput.svelte';
   import EventTable from './EventTable.svelte';
 
-  const PREVIEW_SAMPLE_SIZE = 20;
+  const PREVIEW_SAMPLE_SIZE = 10;
 
   let { mapSettings=$bindable(mapSettings), updateStep, events } = $props();
 

@@ -15,6 +15,7 @@
 
 <main>
   <div class="container">
+
     <div class="row">
       <div class="col-12">
         <Navigation {step} />
@@ -26,9 +27,8 @@
     {:else if step == 1}
       <Visualize bind:mapSettings {updateStep} {events} />
     {:else if step == 2}
-      <Embed {mapSettings} {events} />
+      <Embed {mapSettings} {updateStep} {events} />
     {/if}
-    
 
   </div>
 </main>
