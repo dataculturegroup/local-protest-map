@@ -4,6 +4,8 @@
   import { onMount } from 'svelte';
   import { preventDefault } from 'svelte/legacy';
 
+  const baseUrl = `${document.location.origin}${document.location.pathname}`;
+  
   const data = $derived({
     v: 1, // track a version in case this protocol changes in the future
     s: mapSettings.source,
@@ -23,7 +25,7 @@
     });
     return p;
   });
-  const url = $derived(`https://dataculture.northeastern.edu/protest-map/?${params.toString()}`);
+  const url = $derived(`${baseUrl}?${params.toString()}`);
   const iframeCode = $derived(`<iframe src="${url}" width="${mapSettings.width}" height="${mapSettings.height}" frameborder="0" scrolling="no"></iframe>`);
 </script>
 

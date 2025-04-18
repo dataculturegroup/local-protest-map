@@ -11,7 +11,7 @@
           <br />
           A project of the <a href="https://dataculture.northeastern.edu/" target="_new">Data Culture Group</a> in the School of Journalism and Media Innovation at Northeastern University.
           <br />
-          Created as <a href="">an open-source project</a> using the Svelte component library.
+          Created as <a href="https://github.com/dataculturegroup/local-protest-map">an open-source project</a> using the Svelte component library.
           <br />
           Version {version}
         </p>
