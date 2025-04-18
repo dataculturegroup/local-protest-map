@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v0.2.3
+
+Nav tweaks
+
 ### v0.2.2
 
 Dependencies cleanup.
