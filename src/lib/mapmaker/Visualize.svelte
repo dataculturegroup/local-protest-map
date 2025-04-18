@@ -77,23 +77,20 @@
     text-align: center;
     margin: 0 0.25em;
   }
-  /* HIDE RADIO */
+
+  /** tweaks to let me use icons for radio buttons **/
   input[type=radio] { 
     position: absolute;
     opacity: 0;
     width: 0;
     height: 0;
   }
-
-  /* IMAGE STYLES */
   input[type=radio] + img {
     cursor: pointer;
     width: 50px;
     height: 50px;
     padding: 10px;
   }
-
-  /* CHECKED STYLES */
   input[type=radio]:checked + img {
     background: var(--palette-tertiary);
     border-radius: 5px;
