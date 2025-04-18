@@ -2,7 +2,7 @@
   import Locator from "./Locator.svelte";
   import DateInput from './DateInput.svelte';
   import EventTable from './EventTable.svelte';
-    import { map } from "leaflet";
+  import { map } from "leaflet";
 
   const PREVIEW_SAMPLE_SIZE = 10;
 
