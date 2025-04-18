@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-10">
         <p>
-          Created by Rahul Bhargava.
+          Created by <a href="https://bsky.app/profile/rahulbot.bsky.social">Rahul Bhargava</a>.
           <br />
           A project of the <a href="https://dataculture.northeastern.edu/" target="_new">Data Culture Group</a> in the School of Journalism and Media Innovation at Northeastern University.
           <br />
