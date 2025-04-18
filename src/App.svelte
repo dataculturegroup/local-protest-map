@@ -6,10 +6,12 @@
   import MapMaker from './lib/mapmaker/MapMaker.svelte'
   import Footer from './lib/Footer.svelte'
   import { getData, isWithinRadius } from './lib/util/data.js';
+    import { marker } from 'leaflet';
 
   const VERSION = '0.1.0';
   const ACLED_URL = "acled-latest.csv";
   const CCC_URL = "ccc-latest.csv";
+  const baseUrl = `${document.location.origin}${document.location.pathname}`;
 
   let urlMapSettings = $state(null);
   let loadingData = $state(true);
@@ -22,8 +24,16 @@
     endDate: new Date(), // default to today
     width: 700,
     height: 350,
+    markerIcon: 'pin',
     includeTitle: true
   })
+  const title = $derived.by(() => { // duplivative, but need it here for embed
+    if (mapSettings.includeTitle === false) return null;
+    let t = "Protests ";
+    const formatDate = (date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+    t += `between ${formatDate(mapSettings.startDate)} and ${formatDate(mapSettings.endDate)}`;
+    return t;
+  });
   let data = $state({acled: [], ccc: []});   // filled in by onMount
   let events = $derived.by(() => {
     let allEvents = [] 
@@ -51,6 +61,7 @@
         endDate: dayjs(urlParams.ed, "YYYY-MM-DD").toDate(),
         width: urlParams.w,
         height: urlParams.h,
+        markerIcon: urlParams.i,
         includeTitle: urlParams.t == '1'
       };
     } catch (error) { // bad data on URL, so ignore it
@@ -89,16 +100,19 @@
 
   {#if urlMapSettings != null}
     <Map
+      title={mapSettings.includeTitle ? title : null}
       zoom={mapSettings.zoom}
       center={[mapSettings.coords[1], mapSettings.coords[0]]}
       markers={events} 
       width={mapSettings.width}
       height={mapSettings.height}
       source={mapSettings.source}
+      iconName={mapSettings.markerIcon}
+      {baseUrl}
     />
   {:else}
     <Header />
-    <MapMaker bind:mapSettings {events} />
+    <MapMaker bind:mapSettings {events} {baseUrl}/>
     <Footer version={VERSION} />
   {/if}
 

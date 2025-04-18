@@ -1,7 +1,7 @@
 <script>
   import Map from './Map.svelte';
-  const { mapSettings, events } = $props();
-
+  const { mapSettings, events, baseUrl } = $props();
+  
   const title = $derived.by(() => {
     if (mapSettings.includeTitle === false) return null;
     let t = "Protests ";
@@ -9,6 +9,7 @@
     t += `between ${formatDate(mapSettings.startDate)} and ${formatDate(mapSettings.endDate)}`;
     return t;
   });
+
 </script>
 
 <section>
@@ -21,5 +22,7 @@
     width={mapSettings.width}
     height={mapSettings.height}
     source={mapSettings.source}
+    iconName={mapSettings.markerIcon}
+    {baseUrl}
   />
 </section>

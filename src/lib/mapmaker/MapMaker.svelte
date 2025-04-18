@@ -7,7 +7,7 @@
   import Visualize from './Visualize.svelte';
   import Embed from './Embed.svelte';
 
-  let {mapSettings=$bindable(mapSettings), events} = $props();
+  let {mapSettings=$bindable(mapSettings), events, baseUrl} = $props();
   let step = $state(0);
 
   function updateStep(newStep) { step = newStep; }
@@ -25,9 +25,9 @@
     {#if step == 0}
       <PickData bind:mapSettings {updateStep} {events} />
     {:else if step == 1}
-      <Visualize bind:mapSettings {updateStep} {events} />
+      <Visualize bind:mapSettings {updateStep} {events} {baseUrl} />
     {:else if step == 2}
-      <Embed {mapSettings} {updateStep} {events} />
+      <Embed {mapSettings} {updateStep} {events} {baseUrl} />
     {/if}
 
   </div>

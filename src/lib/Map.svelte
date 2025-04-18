@@ -2,7 +2,7 @@
 import { onMount } from 'svelte';
 import { trimToLength } from './util/string';
 import L from 'leaflet';
-let { source, center, zoom, markers, width, height, title } = $props();  // center on coords if they are passed in
+let { source, center, zoom, markers, width, height, title, baseUrl, iconName } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
@@ -23,9 +23,15 @@ function createMap(container) {
 
 function addMarkers(markerData) {
   if (!map || !markerLayer) return;
+  const icon = L.icon({
+    iconUrl: `${iconName}.png`,
+    iconSize:     [30, 30], // size of the icon
+    iconAnchor:   [15, 30], // point of the icon which will correspond to marker's location
+    popupAnchor:  [0, -30] // point from which the popup should open relative to the iconAnchor
+  });
   markerLayer.clearLayers();
   markerData.forEach(function(point) {
-    const marker = L.marker([point.lat, point.lon]);
+    const marker = L.marker([point.lat, point.lon],  {icon});
     marker.bindPopup(`<b>${point.date} in ${point.location}</b>`+
                      `<br /><i>${trimToLength(point.actor, 100)}</i><br />${trimToLength(point.summary, 200)}<br />`);
     markerLayer.addLayer(marker);
@@ -52,7 +58,7 @@ $effect(() => {
   {/if}
   <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
-    Created with <a href="https://dataculture.northeastern.edu/protest-map/">Protest Map</a>. Data via
+    Created with <a href={baseUrl}>Protest Map</a>. Data via
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
     {:else if source == "CCC"}
@@ -74,8 +80,6 @@ h3 {
   border: 1px solid #999;
   overflow: hidden;
   position: relative;
-}
-figure {
 }
 figcaption {
   display: block;

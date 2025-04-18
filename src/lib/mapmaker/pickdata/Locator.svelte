@@ -54,7 +54,6 @@
     mapSettings.coords = [latlon[1], latlon[0]]; // lat, lon
     located = false;
   }
-  $inspect(mapSettings.coords);
 </script>
 
 {#if locating}

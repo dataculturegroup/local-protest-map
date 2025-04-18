@@ -1,21 +1,20 @@
 <script>
-  let { mapSettings, updateStep, events } = $props();
+  let { mapSettings, updateStep, events, baseUrl } = $props();
   import MapPreview from '../MapPreview.svelte';
   import { onMount } from 'svelte';
   import { preventDefault } from 'svelte/legacy';
 
-  const baseUrl = `${document.location.origin}${document.location.pathname}`;
-  
   const data = $derived({
     v: 1, // track a version in case this protocol changes in the future
-    s: mapSettings.source,
+    s: mapSettings.source || 'ACLED',
     c: [mapSettings.coords[0], mapSettings.coords[1]],
-    z: mapSettings.zoom,
-    r: mapSettings.radiusMiles,
+    z: mapSettings.zoom || 8,
+    r: mapSettings.radiusMiles || 50,
     sd: new Date(mapSettings.startDate).toISOString().split('T')[0],
     ed: new Date(mapSettings.endDate).toISOString().split('T')[0],
-    w: mapSettings.width,
-    h: mapSettings.height,
+    w: mapSettings.width || 600,
+    h: mapSettings.height || 400,
+    i: mapSettings.markerIcon || 'pin',
     t: mapSettings.includeTitle ? 1 : 0
   });
   const params = $derived.by(() => {
@@ -26,7 +25,7 @@
     return p;
   });
   const url = $derived(`${baseUrl}?${params.toString()}`);
-  const iframeCode = $derived(`<iframe src="${url}" width="${mapSettings.width}" height="${mapSettings.height}" frameborder="0" scrolling="no"></iframe>`);
+  const iframeCode = $derived(`<iframe title="Protest Map" aria-label="Map of ${events.length} local protests" id="local-protest-map-embed" src="${url}" width="${mapSettings.width}" height="${mapSettings.height}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
 </script>
 
 <div class="row">
@@ -53,6 +52,6 @@
   </div>
 
   <div class="col-md-8">
-    <MapPreview {mapSettings} {events} />
+    <MapPreview {mapSettings} {events} {baseUrl} />
   </div>
 </div>

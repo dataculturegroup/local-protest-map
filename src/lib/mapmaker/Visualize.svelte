@@ -1,8 +1,7 @@
 <script>
-    import { map } from 'leaflet';
+  import { map } from 'leaflet';
   import MapPreview from '../MapPreview.svelte';
-  let { mapSettings=$bindable(mapSettings), updateStep, events } = $props();
-
+  let { mapSettings=$bindable(mapSettings), updateStep, events, baseUrl } = $props();
 </script>
 
 <div class="row">
@@ -40,6 +39,22 @@
         </select>
       </div>
 
+      <div class="form-group">
+        <label for="markerIcon">Icon:</label>        
+        <label>
+          <input type="radio" name="markerIcon" value="pin" bind:group={mapSettings.markerIcon}>
+          <img src="pin.png" alt="a geographic pin marker">
+        </label>
+        <label>
+          <input type="radio" name="markerIcon" value="fist" bind:group={mapSettings.markerIcon}>
+          <img src="fist.png" alt="a closed fist">
+        </label>
+        <label>
+          <input type="radio" name="markerIcon" value="sign" bind:group={mapSettings.markerIcon}>
+          <img src="sign.png" alt="a sign with an X written on it">
+        </label>
+      </div>
+
     </form>
 
     <div class="controls">
@@ -53,7 +68,7 @@
 
   </div>
   <div class="col-md-8">
-    <MapPreview {mapSettings} {events} />
+    <MapPreview {mapSettings} {events} {baseUrl} />
   </div>
 </div>
 
@@ -61,5 +76,26 @@
   input[type="text"] {
     text-align: center;
     margin: 0 0.25em;
+  }
+  /* HIDE RADIO */
+  input[type=radio] { 
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* IMAGE STYLES */
+  input[type=radio] + img {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+  }
+
+  /* CHECKED STYLES */
+  input[type=radio]:checked + img {
+    background: var(--palette-tertiary);
+    border-radius: 5px;
   }
 </style>
