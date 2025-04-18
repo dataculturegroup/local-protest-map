@@ -31,16 +31,18 @@
 <div class="row">
   <div class="col-md-4">
     <div class="input-group">
-      <form class="form-inline">
+      <p>
+        Copy and paste the code snippet above into your website to embed it as an iframe.
+      </p>
+      <form>
         <div class="form-group">
           <label for="embedCode">Embed Code</label>
-          <input id="embedCode" type="text" class="form-control" value={iframeCode} readonly style="max-width: 100ch;">
-          <button class="btn btn-outline-secondary" onclick={(evt) => {navigator.clipboard.writeText(url); evt.preventDefault()}}>
+          <br />
+          <input id="embedCode" type="text" value={iframeCode} readonly size="30">
+          <br />
+          <button id="copy" class="btn btn-outline btn-lg" onclick={(evt) => {navigator.clipboard.writeText(url); evt.preventDefault()}}>
             Copy
           </button>
-          <small>
-            Copy and paste the code snippet above into your website to embed it as an iframe.
-          </small>
         </div>
       </form>
     </div>
@@ -55,3 +57,10 @@
     <MapPreview {mapSettings} {events} {baseUrl} />
   </div>
 </div>
+
+<style>
+#copy {
+  background-color: var(--palette-tertiary);
+  margin-top: 0.5rem;
+}
+</style>
