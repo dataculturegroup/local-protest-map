@@ -2,7 +2,8 @@
 import { onMount } from 'svelte';
 import { trimToLength } from './util/string';
 import L from 'leaflet';
-let { source, center, zoom, markers, width, height, title, baseUrl, iconName } = $props();  // center on coords if they are passed in
+let { source, center, zoom, markers, width, height, title, baseUrl, iconName, 
+  computedHeight=$bindable(computedHeight) } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
@@ -49,6 +50,12 @@ $effect(() => {
   map.setView(center, zoom);
   markerLayer.clearLayers();
   addMarkers(markers);
+  if (computedHeight) {
+    const mapWrapper = document.getElementById('mapWrapper');
+    if (mapWrapper) {
+      computedHeight = mapWrapper.offsetHeight;
+    }
+  }
 });
 </script>
 

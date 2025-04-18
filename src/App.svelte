@@ -15,6 +15,7 @@
 
   let urlMapSettings = $state(null);
   let loadingData = $state(true);
+  let computedHeight = $state(null); // throwaway placeholder used when rendering embed
   let mapSettings = $state({  // use reasonable defaults
     source: 'ACLED',
     zoom: '8',
@@ -109,6 +110,7 @@
       source={mapSettings.source}
       iconName={mapSettings.markerIcon}
       {baseUrl}
+      bind:computedHeight
     />
   {:else}
     <Header />

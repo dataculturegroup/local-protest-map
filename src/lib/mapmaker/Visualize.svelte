@@ -2,6 +2,7 @@
   import { map } from 'leaflet';
   import MapPreview from '../MapPreview.svelte';
   let { mapSettings=$bindable(mapSettings), updateStep, events, baseUrl } = $props();
+  let computedHeight = $state(null);
 </script>
 
 <div class="row">
@@ -68,7 +69,7 @@
 
   </div>
   <div class="col-md-8">
-    <MapPreview {mapSettings} {events} {baseUrl} />
+    <MapPreview {mapSettings} {events} {baseUrl} bind:computedHeight />
   </div>
 </div>
 

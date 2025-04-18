@@ -1,6 +1,6 @@
 <script>
   import Map from './Map.svelte';
-  const { mapSettings, events, baseUrl } = $props();
+  let { mapSettings, events, baseUrl, computedHeight=$bindable(computedHeight) } = $props();
   
   const title = $derived.by(() => {
     if (mapSettings.includeTitle === false) return null;
@@ -24,5 +24,7 @@
     source={mapSettings.source}
     iconName={mapSettings.markerIcon}
     {baseUrl}
+    bind:computedHeight
+
   />
 </section>

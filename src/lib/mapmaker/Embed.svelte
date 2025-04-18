@@ -4,6 +4,8 @@
   import { onMount } from 'svelte';
   import { preventDefault } from 'svelte/legacy';
 
+  let computedHeight = $state(null);
+
   const data = $derived({
     v: 1, // track a version in case this protocol changes in the future
     s: mapSettings.source || 'ACLED',
@@ -25,7 +27,7 @@
     return p;
   });
   const url = $derived(`${baseUrl}?${params.toString()}`);
-  const iframeCode = $derived(`<iframe title="Protest Map" aria-label="Map of ${events.length} local protests" id="local-protest-map-embed" src="${url}" width="${mapSettings.width}" height="${mapSettings.height}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
+  const iframeCode = $derived(`<iframe title="Protest Map" aria-label="Map of ${events.length} local protests" id="local-protest-map-embed" src="${url}" width="${mapSettings.width}" height="${computedHeight}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
 </script>
 
 <div class="row">
@@ -54,7 +56,7 @@
   </div>
 
   <div class="col-md-8">
-    <MapPreview {mapSettings} {events} {baseUrl} />
+    <MapPreview {mapSettings} {events} {baseUrl} bind:computedHeight />
   </div>
 </div>
 
