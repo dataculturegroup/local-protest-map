@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.0.0
+
+Fix embed height problem
+
 ### v0.2.3
 
 Nav tweaks
