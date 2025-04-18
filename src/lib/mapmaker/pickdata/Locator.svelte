@@ -82,18 +82,19 @@
     {/if}
   </button>
 
-  <br />
-
-  <span class="text-secondary">( or pick a state
-  <select id="stateChoices" onchange={handleStateSelected} bind:value={selectedState} aria-describedby="stateChoicesHelp" >
-    <option value="">None</option>
-    <StateOptions />
-  </select> )</span>
+  <div class="text-secondary">
+    ( or pick a state
+    <select id="stateChoices" onchange={handleStateSelected} bind:value={selectedState} aria-describedby="stateChoicesHelp" >
+      <option value="">None</option>
+      <StateOptions />
+    </select> )
+  </div>
 
 {/if}
 
 <style>
   .text-secondary select {
     opacity: 0.7;
+    margin-top: 0.5rem;
   }
 </style>

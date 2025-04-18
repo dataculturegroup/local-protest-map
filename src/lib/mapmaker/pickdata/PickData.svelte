@@ -6,11 +6,7 @@
 
   const PREVIEW_SAMPLE_SIZE = 10;
 
-  let { mapSettings=$bindable(mapSettings), updateStep, events } = $props();
-
-  let dataValid = $derived(() => {
-    return (mapSettings.coords.length > 0) && (events.length > 0) && (mapSettings.startDate < mapSettings.endDate);
-  });
+  let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
 
 </script>
 
@@ -52,7 +48,7 @@
     </form>
 
     <div class="controls">
-      <button class="btn btn-outline-dark primary btn-lg" onclick={() => updateStep(1)} disabled={!dataValid()}>
+      <button class="btn btn-outline-dark primary btn-lg" onclick={() => updateStep(1)} disabled={!okToProceed}>
         Next
       </button>
     </div>
@@ -61,7 +57,7 @@
 
   <div class="col-md-8">
     <section style="min-height: 500px;">
-      {#if dataValid()}
+      {#if okToProceed}
         {#if events.length == 0}
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
