@@ -1,5 +1,5 @@
-Local Protest Mapper
-====================
+🚧 Local Protest Mapper 🚧
+==========================
 
 A small Svelte tool for journalists to create maps of local protests that they can embed in stories.
 
