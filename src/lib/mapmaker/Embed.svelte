@@ -5,6 +5,7 @@
   import { preventDefault } from 'svelte/legacy';
 
   const data = $derived({
+    v: 1, // track a version in case this protocol changes in the future
     s: mapSettings.source,
     c: [mapSettings.coords[0], mapSettings.coords[1]],
     z: mapSettings.zoom,

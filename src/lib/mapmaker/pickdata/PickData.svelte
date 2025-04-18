@@ -45,7 +45,7 @@
       </div>
 
       <div class="form-group">
-        <label for="dateStartEnd">Dates:</label>
+        <label>Dates:</label>
         <div id="dateStateEnd" aria-describedby="dateStartEndHelp">
           from <DateInput bind:date={mapSettings.startDate} />
           to <DateInput bind:date={mapSettings.endDate} />
