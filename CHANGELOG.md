@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v0.2.1
+
+Styling and text tweaks.
+
 ### v0.2.0
 
 Added map marker icon options.

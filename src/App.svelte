@@ -8,7 +8,7 @@
   import { getData, isWithinRadius } from './lib/util/data.js';
     import { marker } from 'leaflet';
 
-  const VERSION = '0.2.0';
+  const VERSION = '0.2.1';
   const ACLED_URL = "acled-latest.csv";
   const CCC_URL = "ccc-latest.csv";
   const baseUrl = `${document.location.origin}${document.location.pathname}`;
