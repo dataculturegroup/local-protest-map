@@ -22,18 +22,8 @@
     <form>
 
       <div class="form-group">
-        <label for="dataSource">Data Source:</label>        
-        <select id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
-          <option value="ACLED">ACLED</option>
-          <option value="CCC">CCC</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="dataSource">Area:</label>
-
+        <label for="dataSource">Map Area:</label>
         <Locator bind:mapSettings />
-
         <small id="dataSourceHelp" class="form-text text-muted">
           {#if mapSettings.coords.length > 0}
             You picked: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
@@ -41,7 +31,14 @@
             ⚠️ Pick a location
           {/if}
         </small>
+      </div>
 
+      <div class="form-group">
+        <label for="dataSource">Data Source:</label>        
+        <select id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
+          <option value="ACLED">ACLED</option>
+          <option value="CCC">CCC</option>
+        </select>
       </div>
 
       <div class="form-group">

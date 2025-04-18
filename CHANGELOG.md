@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v0.2.2
+
+Dependencies cleanup.
+
 ### v0.2.1
 
 Styling and text tweaks.
