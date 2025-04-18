@@ -43,6 +43,13 @@ function mapAction(container) {
   createMap(container); 
 }
 
+onMount(() => {
+  const mapWrapper = document.getElementById('mapWrapper');
+  if (mapWrapper) {
+    computedHeight = mapWrapper.offsetHeight;
+  }
+})
+
 // make sure that the map content and view is updated when new data is passed in
 $effect(() => {
   if (!map || !markerLayer) return;
@@ -50,11 +57,9 @@ $effect(() => {
   map.setView(center, zoom);
   markerLayer.clearLayers();
   addMarkers(markers);
-  if (computedHeight) {
-    const mapWrapper = document.getElementById('mapWrapper');
-    if (mapWrapper) {
-      computedHeight = mapWrapper.offsetHeight;
-    }
+  const mapWrapper = document.getElementById('mapWrapper');
+  if (mapWrapper) {
+    computedHeight = mapWrapper.offsetHeight;
   }
 });
 </script>

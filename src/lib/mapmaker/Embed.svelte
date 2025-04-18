@@ -26,6 +26,7 @@
     });
     return p;
   });
+  $inspect(computedHeight);
   const url = $derived(`${baseUrl}?${params.toString()}`);
   const iframeCode = $derived(`<iframe title="Protest Map" aria-label="Map of ${events.length} local protests" id="local-protest-map-embed" src="${url}" width="${mapSettings.width}" height="${computedHeight}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
 </script>
@@ -42,7 +43,7 @@
           <br />
           <input id="embedCode" type="text" value={iframeCode} readonly size="30">
           <br />
-          <button id="copy" class="btn btn-outline btn-lg" onclick={(evt) => {navigator.clipboard.writeText(url); evt.preventDefault()}}>
+          <button id="copy" class="btn btn-outline btn-lg" onclick={(evt) => {navigator.clipboard.writeText(iframeCode); evt.preventDefault()}}>
             Copy
           </button>
         </div>
