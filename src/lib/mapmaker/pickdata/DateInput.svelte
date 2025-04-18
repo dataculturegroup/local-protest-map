@@ -14,4 +14,10 @@
   $: output(internal);
 </script>
 
-<input class="form-control" type="date" bind:value={internal} />
+<input type="date" bind:value={internal} />
+
+<style>
+  input {
+    text-align: center;
+  }
+</style>

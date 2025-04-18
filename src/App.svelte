@@ -12,7 +12,7 @@
 
   let urlMapSettings = $state(null);
   let loadingData = $state(true);
-  let mapSettings = $state({
+  let mapSettings = $state({  // use reasonable defaults
     source: 'ACLED',
     zoom: '8',
     coords: [],
@@ -20,7 +20,8 @@
     startDate: dayjs('2025-01-01', 'YYYY-MM-DD').toDate(), // hack to get GMT date
     endDate: new Date(), // default to today
     width: 700,
-    height: 350
+    height: 350,
+    includeTitle: true
   })
   let data = $state({acled: [], ccc: []});   // filled in by onMount
   let events = $derived.by(() => {
@@ -39,7 +40,6 @@
     // parse URL params if in embed mode
     const params = new URLSearchParams(window.location.search);
     const urlParams = Object.fromEntries(params.entries());
-
     try {
       urlMapSettings = {
         source: urlParams.s,
@@ -49,9 +49,10 @@
         startDate: dayjs(urlParams.sd, "YYYY-MM-DD").toDate(),
         endDate: dayjs(urlParams.ed, "YYYY-MM-DD").toDate(),
         width: urlParams.w,
-        height: urlParams.h
+        height: urlParams.h,
+        includeTitle: urlParams.t == '1'
       };
-    } catch (error) {
+    } catch (error) { // bad data on URL, so ignore it
       urlMapSettings = null;
     }
     if (urlMapSettings) {

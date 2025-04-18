@@ -1,5 +1,4 @@
 :root {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   --bright-blue: #15F2C3;
   --peaceful-blue: #98E8D2;
   --tan: #DAC4B4;
@@ -9,6 +8,10 @@
   --palette-secondary: var(--salmon);
   --palette-tertiary: var(--bright-blue);
   --palette-light-background: var(--tan);
+}
+
+body {
+  font-family: "Volkhov", serif;
 }
 
 h1 {
@@ -31,7 +34,7 @@ button.primary{
 
 .controls {
   display: block;
-  margin: 2rem 0 0 0;
+  margin: 2rem 0 2rem 0;
 
   :disabled {
     background-color: grey;
@@ -57,4 +60,19 @@ form {
 section {
   border-left: 1px solid var(--palette-tertiary);
   padding-left: 1rem
+}
+
+form {
+  label {
+    display: inline-block;
+    margin-right: 0.5rem;
+    font-size: 1.2rem;
+  }
+  select {
+    padding: 0.25rem;
+    display: inline-block;
+  }
+  .form-group:first-child {
+    margin-top: 2rem;
+  }
 }

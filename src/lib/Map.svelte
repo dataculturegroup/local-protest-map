@@ -2,7 +2,7 @@
 import { onMount } from 'svelte';
 import { trimToLength } from './util/string';
 import L from 'leaflet';
-let { source, center, zoom, markers, width, height } = $props();  // center on coords if they are passed in
+let { source, center, zoom, markers, width, height, title } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
@@ -47,6 +47,9 @@ $effect(() => {
 </script>
 
 <figure id="mapWrapper">
+  {#if title}
+    <h3>{title}</h3>
+  {/if}
   <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
     Created with <a href="https://dataculture.northeastern.edu/protest-map/">Protest Map</a>. Data via
@@ -61,6 +64,10 @@ $effect(() => {
 </figure>
 
 <style>
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
 .map {
   width: 100%;
   height: 100%;

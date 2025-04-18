@@ -11,17 +11,15 @@
 <table class="table table-sm">
   <thead>
     <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Location</th>
-      <th scope="col">Actor</th>
-      <th scope="col">Summary</th>
+      <th scope="col" style="white-space: nowrap;">When & Where</th>
+      <th scope="col">Who</th>
+      <th scope="col">What</th>
     </tr>
   </thead>
   <tbody>
     {#each getRandom(events, sampleSize) as e}
       <tr>
-        <td style="white-space: nowrap;">{e.date}</td>
-        <td style="white-space: nowrap;">{e.location}</td>
+        <td style="white-space: nowrap;">{e.date}<br/>{e.location}</td>
         <td>{e.actor}</td>
         <td>{e.summary}</td>
       </tr>
@@ -32,7 +30,6 @@
 <style>
   th {
     background-color: var(--palette-light-background);
-    margin-right: 1px;
   }
   td {
     font-size: 0.75rem;

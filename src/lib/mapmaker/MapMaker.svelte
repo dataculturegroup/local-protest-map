@@ -39,6 +39,6 @@
   }
 
   main {
-    padding: 2rem 0rem;
+    padding: 4rem 0;
   }
 </style>

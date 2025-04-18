@@ -12,7 +12,8 @@
     sd: new Date(mapSettings.startDate).toISOString().split('T')[0],
     ed: new Date(mapSettings.endDate).toISOString().split('T')[0],
     w: mapSettings.width,
-    h: mapSettings.height
+    h: mapSettings.height,
+    t: mapSettings.includeTitle ? 1 : 0
   });
   const params = $derived.by(() => {
     let p = new URLSearchParams();
@@ -26,7 +27,7 @@
 </script>
 
 <div class="row">
-  <div class="col-4">
+  <div class="col-md-4">
     <div class="input-group">
       <form class="form-inline">
         <div class="form-group">
@@ -48,7 +49,7 @@
     </div>
   </div>
 
-  <div class="col-8">
+  <div class="col-md-8">
     <MapPreview {mapSettings} {events} />
   </div>
 </div>
