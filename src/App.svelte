@@ -7,6 +7,7 @@
   import Footer from './lib/Footer.svelte'
   import { getData, isWithinRadius } from './lib/util/data.js';
 
+  const VERSION = '0.1.0';
   const ACLED_URL = "acled-latest.csv";
   const CCC_URL = "ccc-latest.csv";
 
@@ -98,7 +99,7 @@
   {:else}
     <Header />
     <MapMaker bind:mapSettings {events} />
-    <Footer />
+    <Footer version={VERSION} />
   {/if}
 
 {/if}
