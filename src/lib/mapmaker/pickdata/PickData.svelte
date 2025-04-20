@@ -4,7 +4,7 @@
   import EventTable from './EventTable.svelte';
   import { map } from "leaflet";
 
-  const PREVIEW_SAMPLE_SIZE = 10;
+  const PREVIEW_SAMPLE_SIZE = 20;
 
   let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
 
@@ -61,7 +61,7 @@
         {#if events.length == 0}
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
-          <p>Matches <strong>{events.length} protests</strong> in the area. Here's a sample of {PREVIEW_SAMPLE_SIZE} random ones:</p>
+          <p>Matches <strong>{events.length} protests</strong> in the area. Here's are the most recent:</p>
           <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
         {/if}
       {:else}
