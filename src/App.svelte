@@ -8,9 +8,9 @@
   import { getData, isWithinRadius } from './lib/util/data.js';
     import { marker } from 'leaflet';
 
-  const VERSION = '1.0.1';
-  const ACLED_URL = "acled-latest.csv";
-  const CCC_URL = "ccc-latest.csv";
+  const VERSION = '1.1.0';
+  const ACLED_URL = "acled-2025-04-21.csv";
+  const CCC_URL = "ccc-2025-04-01.csv";
   const baseUrl = `${document.location.origin}${document.location.pathname}`;
 
   let urlMapSettings = $state(null);
@@ -36,13 +36,14 @@
     return t;
   });
   let data = $state({acled: [], ccc: []});   // filled in by onMount
-  let events = $derived.by(() => {
-    let allEvents = [] 
+  
+  let events = $derived.by(() =>{
+    let allEvents = [];
     if (mapSettings.source == 'ACLED') {
       allEvents = data.acled;
     } else if (mapSettings.source == 'CCC') {
       allEvents = data.ccc;
-    } 
+    }
     return allEvents.filter(
       row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radiusMiles)
     );
@@ -86,7 +87,6 @@
       summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`
     }));
     loadingData = false;
-  
   });
 
 </script>
