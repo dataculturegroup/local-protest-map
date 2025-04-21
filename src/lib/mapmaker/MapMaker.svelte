@@ -40,9 +40,6 @@
 <style>
   main {
     background-color: #fff;
-  }
-
-  main {
     padding: 4rem 0;
   }
 </style>
