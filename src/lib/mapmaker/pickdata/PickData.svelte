@@ -22,7 +22,7 @@
         <Locator bind:mapSettings />
         <small id="dataSourceHelp" class="form-text text-muted">
           {#if mapSettings.coords.length > 0}
-            You picked: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
+            Map centered at: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
           {:else}
             ⚠️ Pick a location
           {/if}

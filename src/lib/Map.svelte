@@ -3,7 +3,7 @@ import { onMount } from 'svelte';
 import { trimToLength } from './util/string';
 import L from 'leaflet';
 let { source, center, zoom, markers, width, height, title, baseUrl, iconName, 
-  computedHeight=$bindable(computedHeight) } = $props();  // center on coords if they are passed in
+  computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
@@ -20,6 +20,9 @@ function createMap(container) {
   stamenToner.addTo(map);
   markerLayer = L.layerGroup().addTo(map);
   addMarkers(markers);
+  if (onMoveEnd) {
+    map.on('moveend', () => onMoveEnd(map.getCenter()));
+  }
 }
 
 function addMarkers(markerData) {
@@ -53,7 +56,6 @@ onMount(() => {
 // make sure that the map content and view is updated when new data is passed in
 $effect(() => {
   if (!map || !markerLayer) return;
-  map.invalidateSize();
   map.setView(center, zoom);
   markerLayer.clearLayers();
   addMarkers(markers);
@@ -61,6 +63,7 @@ $effect(() => {
   if (mapWrapper) {
     computedHeight = mapWrapper.offsetHeight;
   }
+  map.invalidateSize({debounceMoveend: true});
 });
 </script>
 

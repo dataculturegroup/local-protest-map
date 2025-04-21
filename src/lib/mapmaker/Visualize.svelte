@@ -3,6 +3,11 @@
   import MapPreview from '../MapPreview.svelte';
   let { mapSettings=$bindable(mapSettings), updateStep, events, baseUrl } = $props();
   let computedHeight = $state(null);
+
+  const onMoveEnd = (coords) => {
+    if ((coords.lng == mapSettings.coords[0]) && (coords.lat == mapSettings.coords[1])) return;
+    mapSettings.coords = [coords.lng, coords.lat];
+  };
 </script>
 
 <div class="row">
@@ -19,6 +24,15 @@
         x
         <input type="text" id="mapHeight" bind:value={mapSettings.height} size="5">
         pixels
+      </div>
+
+      <div class="form-group">
+        <label for="mapCenter">Center:</label>
+        <input type="text" id="mapLat" bind:value={mapSettings.coords[0]} size="10" disabled>
+        <input type="text" id="matLng" bind:value={mapSettings.coords[1]} size="10" disabled>
+        <small id="mapCenterHelp" class="form-text text-muted">
+          Drag the map to re-center it.
+        </small>
       </div>
 
       <div class="form-group">
@@ -69,7 +83,7 @@
 
   </div>
   <div class="col-md-8">
-    <MapPreview {mapSettings} {events} {baseUrl} bind:computedHeight />
+    <MapPreview {mapSettings} {events} {baseUrl} bind:computedHeight {onMoveEnd} />
   </div>
 </div>
 
