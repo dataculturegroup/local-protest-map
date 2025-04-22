@@ -65,11 +65,34 @@
           <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
         {/if}
       {:else}
-        <p>⚠️ Invalid or missing data - preview not available.</p>
+        <div id="preview">
+          <img src="table-preview.png" width="100% " alt="Preview of the table" />
+          <p>Pick a location, then you'll see a list of matching protests here.</p>
+        </div>
       {/if}
     </section>
 
   </div>
 
-
 </div>
+
+<style>
+  #preview {
+    font-style: italic;
+  }
+
+  #preview {
+    position: relative;
+    img {
+      filter: blur(3px);
+      opacity: 0.5;
+    }
+    p {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background-color: white;
+      padding: 0.5rem 1rem;
+    }
+  }
+</style>
