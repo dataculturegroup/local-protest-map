@@ -1,7 +1,12 @@
 <header>
   <div class="container">
     <div class="row">
-      <h1>Protest Map</h1>
+      <div class="col-md-12">
+        <div id="title-wrapper">
+          <h1>Protest Map</h1>
+          <img id="logo" src="logo.png" alt="Logo" class="logo"/>
+        </div>
+      </div>
     </div>
   </div>
 </header>
@@ -11,21 +16,21 @@
     <div class="row">
       <div class="col-md-4">
         <p>
-          Protests have begun in earnest again since President Trump was elected, but happen on all sorts of topics.
+          Protests have sprung up across the US since President Trump was re-elected, on a wide variety of topics.
           Journalists writing about local events often want to contextualize those individual incidents within larger
           trends. This website is here to help.
         </p>
       </div>
       <div class="col-md-4">
         <p>
-          Use the simple tool below to create a basic embeddalbe map of protests in your area. The underlying data is 
-          updated once a week on Mondays, and includes protests from the start of the year till today.
+          Use the simple tool below to create an embeddable simple map of protests in your area. The underlying data is 
+          updated once a week on Mondays, and includes protests from the start of the year till that date.
         </p>
       </div>
       <div class="col-md-4">
         <p>
           Clicking a pin on the map shows a short summary of what the protest was about. The underlying data is from two
-          external groups that track protests: the 
+          groups that track protests: the 
           <a href="https://acleddata.com/" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a> and 
           the <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium (CCC)</a>.
         </p>
@@ -47,5 +52,20 @@ header {
     a {
       color: var(--palette-primary);
     }
+}
+#title-wrapper {
+  position: relative;  
+}
+#logo {
+  position: absolute;
+  top: 0;
+  right: 2rem;
+  height: 80px;
+}
+
+@media (max-width: 575.98px) {
+  #logo {
+    display: none;
+  }
 }
 </style>
