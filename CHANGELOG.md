@@ -5,6 +5,8 @@ Change Log
 
 * Updated ACLED and CCC to latest data.
 * Support dragging map to re-center.
+* Add quick logo and favicon.
+* Show blurred preview of event table on first step.
 
 ### v1.0.1
 
