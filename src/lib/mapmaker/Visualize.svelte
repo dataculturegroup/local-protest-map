@@ -51,9 +51,20 @@
           <option value=8>8</option>
           <option value=9>9</option>
           <option value=10>10</option>
+          <option value=11>11</option>
+          <option value=12>12</option>
+          <option value=13>13</option>
         </select>
       </div>
-
+<!--
+      <div class="form-group">
+        <label for="baseMap">Base Map:</label>
+        <select id="baseMap" name="baseMap" bind:value={mapSettings.baseMap}>
+          <option value='alidade-smooth'>Standard</option>
+          <option value='toner'>Black and White</option>
+        </select>
+      </div>
+-->
       <div class="form-group">
         <label for="markerIcon">Icon:</label>        
         <label>
