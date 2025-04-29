@@ -29,7 +29,7 @@
 <style>
   footer {
     background-color: var(--palette-light-background);
-    padding: 2rem 0 4rem 0;
+    padding: 4rem 0 6rem 0;
     border-top: var(--palette-tertiary) 2px solid;
 
     a {

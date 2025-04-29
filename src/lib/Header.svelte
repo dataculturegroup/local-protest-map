@@ -68,4 +68,8 @@ header {
     display: none;
   }
 }
+
+section {
+  border-left: 0px;
+}
 </style>
