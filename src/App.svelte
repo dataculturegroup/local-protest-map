@@ -38,7 +38,7 @@
     return t;
   });
   let data = $state({acled: [], ccc: []});   // filled in by onMount
-  
+
   let events = $derived.by(() =>{
     let allEvents = [];
     if (mapSettings.source == 'ACLED') {
@@ -70,8 +70,8 @@
         zoom: urlParams.z,
         coords: urlParams.c.split(',').map(Number),
         radiusMiles: urlParams.r,
-        startDate: dayjs(urlParams.sd, "YYYY-MM-DD").toDate(),
-        endDate: dayjs(urlParams.ed, "YYYY-MM-DD").toDate(),
+        startDate: urlParams.sd,
+        endDate: urlParams.ed,
         width: urlParams.w,
         height: urlParams.h,
         markerIcon: urlParams.i,
@@ -123,6 +123,7 @@
       iconName={mapSettings.markerIcon}
       {baseUrl}
       bind:computedHeight
+      baseMap={mapSettings.baseMap}
     />
   {:else}
     <Header />

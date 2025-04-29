@@ -17,7 +17,8 @@
     w: mapSettings.width || 600,
     h: mapSettings.height || 400,
     i: mapSettings.markerIcon || 'pin',
-    t: mapSettings.includeTitle ? 1 : 0
+    t: mapSettings.includeTitle ? 1 : 0,
+    m: mapSettings.baseMap || 'alidade-smooth'
   });
   const params = $derived.by(() => {
     let p = new URLSearchParams();
