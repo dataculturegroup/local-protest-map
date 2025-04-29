@@ -1,16 +1,17 @@
 <script>
   import dayjs from 'dayjs';
   import { onMount } from 'svelte'
+
   import Map from './lib/Map.svelte';
   import Header from './lib/Header.svelte'
   import MapMaker from './lib/mapmaker/MapMaker.svelte'
   import Footer from './lib/Footer.svelte'
-  import { getData, isWithinRadius } from './lib/util/data.js';
-    import { marker } from 'leaflet';
+  import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED } from './lib/util/data.js';
+  import { marker } from 'leaflet';
+  import { userDateStrToDate } from './lib/util/date.js';
 
   const VERSION = '1.1.0';
-  const ACLED_URL = "acled-2025-04-21.csv";
-  const CCC_URL = "ccc-2025-04-01.csv";
+
   const baseUrl = `${document.location.origin}${document.location.pathname}`;
 
   let urlMapSettings = $state(null);
@@ -21,12 +22,13 @@
     zoom: '8',
     coords: [],
     radiusMiles: '50',
-    startDate: dayjs('2025-01-01', 'YYYY-MM-DD').toDate(), // hack to get GMT date
-    endDate: new Date(), // default to today
+    startDate: '2025-01-01', // hack to get GMT date
+    endDate: dayjs(LAST_UPDATED).format('YYYY-MM-DD'), // latest date new data was pulled
     width: 700,
     height: 350,
     markerIcon: 'pin',
-    includeTitle: true
+    includeTitle: true,
+    baseMap: 'alidade-smooth'
   })
   const title = $derived.by(() => { // duplivative, but need it here for embed
     if (mapSettings.includeTitle === false) return null;
@@ -44,9 +46,18 @@
     } else if (mapSettings.source == 'CCC') {
       allEvents = data.ccc;
     }
-    return allEvents.filter(
+    allEvents = allEvents.filter(
       row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radiusMiles)
     );
+    allEvents = allEvents.filter(
+      row => {
+        const rowDate = new Date(row.date);
+        const startDate = userDateStrToDate(mapSettings.startDate);
+        const endDate = userDateStrToDate(mapSettings.endDate);
+        return (rowDate >= startDate) && (rowDate <= endDate);
+      }
+    );
+    return allEvents;
   });
 
   onMount( async() => {
@@ -64,7 +75,8 @@
         width: urlParams.w,
         height: urlParams.h,
         markerIcon: urlParams.i,
-        includeTitle: urlParams.t == '1'
+        includeTitle: urlParams.t == '1',
+        baseMap: urlParams.m
       };
     } catch (error) { // bad data on URL, so ignore it
       urlMapSettings = null;

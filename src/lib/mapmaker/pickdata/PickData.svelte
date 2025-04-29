@@ -1,13 +1,13 @@
 <script>
   import Locator from "./Locator.svelte";
-  import DateInput from './DateInput.svelte';
   import EventTable from './EventTable.svelte';
   import { map } from "leaflet";
+  import { userDateStrToDisplay } from "../../util/date";
+  import { LAST_UPDATED } from "../../util/data";
 
   const PREVIEW_SAMPLE_SIZE = 20;
 
   let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
-
 </script>
 
 <div class="row">
@@ -38,10 +38,10 @@
       </div>
 
       <div class="form-group">
-        <label>Dates:</label>
+        <label for="startDate">Dates:</label>
         <div id="dateStateEnd" aria-describedby="dateStartEndHelp">
-          from <DateInput bind:date={mapSettings.startDate} />
-          to <DateInput bind:date={mapSettings.endDate} />
+          from <input type="date" id="startDate" name="startDate" bind:value={mapSettings.startDate} />
+            to <input type="date" id="endDate" name="endDate" bind:value={mapSettings.endDate} />
         </div>
       </div>
 
@@ -61,7 +61,9 @@
         {#if events.length == 0}
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
-          <p>Matches <strong>{events.length} protests</strong> in the area. Here's are the most recent:</p>
+          <p>Found <strong>{events.length} protests</strong> from {mapSettings.source} in the area 
+            between {userDateStrToDisplay(mapSettings.startDate)} and {userDateStrToDisplay(mapSettings.endDate)}.
+            Here are the most recent:</p>
           <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
         {/if}
       {:else}

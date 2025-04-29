@@ -1,5 +1,9 @@
 import Papa from 'papaparse';
 
+export const ACLED_URL = "acled-2025-04-29.csv";
+export const CCC_URL = "ccc-2025-04-01.csv";
+export const LAST_UPDATED = new Date('2025-04-28T20:00:00-05:00'); // EST time
+
 const defaultPapaParseOptions = {
   header: true,               // First row is headers
   dynamicTyping: true,        // Convert numbers/booleans

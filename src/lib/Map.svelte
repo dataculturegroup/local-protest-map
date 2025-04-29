@@ -1,23 +1,31 @@
 <script>
 import { onMount } from 'svelte';
-import { trimToLength } from './util/string';
 import L from 'leaflet';
-let { source, center, zoom, markers, width, height, title, baseUrl, iconName, 
+import { trimToLength } from './util/string';
+import { LAST_UPDATED } from './util/data.js';
+
+let { source, center, zoom, markers, width, height, title, baseUrl, iconName, baseMap, 
   computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();  // center on coords if they are passed in
 
 let map;
 let markerLayer;
+let baseLayer;
 
-const stamenToner = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
-  attribution: '',
-  subdomains: 'abcd',
-    minZoom: 0,
+if (baseMap == 'toner') {
+  baseLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
+    attribution: '',
     maxZoom: 20
-});
+  });
+} else if (baseMap == 'alidade-smooth') {
+  baseLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/alidade_smooth/{z}/{x}/{y}{r}.png', {
+    maxZoom: 20,
+    attribution: '',
+  });
+}
 
 function createMap(container) {
   map = L.map(container, {preferCanvas: true, scrollWheelZoom: false, zoomControl: false }).setView(center, zoom);
-  stamenToner.addTo(map);
+  baseLayer.addTo(map);
   markerLayer = L.layerGroup().addTo(map);
   addMarkers(markers);
   if (onMoveEnd) {
@@ -73,14 +81,20 @@ $effect(() => {
   {/if}
   <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
-    Created with <a href={baseUrl}>Protest Map</a>. Data via
+    Created with <a href={baseUrl}>Protest Map</a>.
+    Data last updated {LAST_UPDATED.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} from
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
     {:else if source == "CCC"}
       <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium - Ash Center - Harvard Kennedy School.</a>
     {/if}.
-    <br />
-    Map tiles &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> <a href="https://stamen.com/" target="_blank">&copy; Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+    Map Tiles 
+    {#if baseMap == 'toner'}
+      &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://stamen.com/" target="_blank">Stamen Design</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+    {:else if baseMap == 'alidade-smooth'}
+      &copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>
+    {/if}
+    .
   </figcaption>
 </figure>
 

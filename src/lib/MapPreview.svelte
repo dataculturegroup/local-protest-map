@@ -26,5 +26,6 @@
     {baseUrl}
     bind:computedHeight
     {onMoveEnd}
+    baseMap={mapSettings.baseMap}
   />
 </section>
