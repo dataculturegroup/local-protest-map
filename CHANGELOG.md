@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.2.1
+
+ * fix build params
+
 ### v1.2.0
 
  * support date filtering
