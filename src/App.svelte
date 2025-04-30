@@ -3,10 +3,10 @@
   import { onMount } from 'svelte'
 
   import Map from './lib/Map.svelte';
-  import Header from './lib/Header.svelte'
-  import MapMaker from './lib/mapmaker/MapMaker.svelte'
-  import Footer from './lib/Footer.svelte'
-  import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED } from './lib/util/data.js';
+  import Header from './lib/Header.svelte';
+  import MapMaker from './lib/mapmaker/MapMaker.svelte';
+  import Footer from './lib/Footer.svelte';
+  import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED, randomizeColocatedEvents } from './lib/util/data.js';
   import { marker } from 'leaflet';
   import { userDateStrToDate, userDateStrToDisplay } from './lib/util/date.js';
 
@@ -89,14 +89,16 @@
     data.acled = data.acled.map(row => ({
       lat: row.latitude, lon: row.longitude, date: row.event_date,
       location: `${row.location}, ${row.admin1}`, actor: row.assoc_actor_1,
-      summary: row.notes
+      summary: row.notes, locRandomized: false
     }));
+    data.acled = randomizeColocatedEvents(data.acled);
     data.ccc = await getData(CCC_URL);
     data.ccc = data.ccc.map(row => ({
       lat: row.lat, lon: row.lon, date: row.date,
       location: `${row.resolved_locality}, ${row.resolved_state}`, actor: row.organizations,
-      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`
+      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`, locRandomized: false
     }));
+    data.ccc = randomizeColocatedEvents(data.ccc);
     loadingData = false;
   });
 

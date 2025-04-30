@@ -64,3 +64,36 @@ export function isWithinRadius(refLat, refLng, targetLat, targetLng, radiusMiles
 function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
+
+/**
+ * For events that are in _exactly_ the same place, we need to randomize their lat/lon a bit so 
+ * that the map looks better. This is a bit of a hack, but it works visually.
+ * @param {Array} originalEvents - Array of event objects with lat and lon properties where some are identical
+ * @param {number} randomDistance - The maximum distance (in degrees) to randomize the lat/lon of colocated events
+ * @returns {Array} - A deep copy of the original events with lat/lon randomized a little for identical locations
+ */
+export function randomizeColocatedEvents(originalEvents, randomDistance = 0.01) {
+  const groupedEvents = originalEvents.reduce((grouped, event) => {
+    const key = `${event.lat},${event.lon}`;
+    if (!grouped[key]) {
+      grouped[key] = { events:[event], count: 1 };
+    } else {
+      grouped[key].count += 1;
+      grouped[key].events.push(event);
+    }
+    return grouped;
+  }, {});
+  Object.values(groupedEvents).forEach(group => {
+    if (group.count > 1) {
+      const cloned_events = group.events.map(event => ({ ...event }));
+      cloned_events.forEach(event => {
+        event.lat += Math.random() * randomDistance;
+        event.lon += Math.random() * randomDistance;
+        event.locRandomized = true;
+      });
+      group.events = cloned_events;
+    }
+  });
+  const eventsWithRandomness = Object.values(groupedEvents).flatMap(group => group.events);
+  return eventsWithRandomness
+}
