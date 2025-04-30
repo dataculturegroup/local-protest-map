@@ -1,4 +1,5 @@
 <script>
+  import { dateStrForDisplay } from '../../util/date.js'
   let { events, sampleSize } = $props();
 
   function getRandom(arr, count) {
@@ -20,7 +21,7 @@
     <tbody>
       {#each events.slice(0, sampleSize) as e}
         <tr>
-          <td style="white-space: nowrap;">{e.date}<br/>{e.location}</td>
+          <td style="white-space: nowrap;">{dateStrForDisplay(e.date)}<br/>{e.location}</td>
           <td>{e.actor}</td>
           <td>{e.summary}</td>
         </tr>

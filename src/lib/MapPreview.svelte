@@ -1,12 +1,12 @@
 <script>
   import Map from './Map.svelte';
+  import { dateStrForDisplay } from './util/date.js';
   let { mapSettings, events, baseUrl, computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();
   
   const title = $derived.by(() => {
     if (mapSettings.includeTitle === false) return null;
     let t = "Protests ";
-    const formatDate = (date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    t += `between ${formatDate(mapSettings.startDate)} and ${formatDate(mapSettings.endDate)}`;
+    t += `between ${dateStrForDisplay(mapSettings.startDate)} and ${dateStrForDisplay(mapSettings.endDate)}`;
     return t;
   });
 

@@ -3,6 +3,7 @@ import { onMount } from 'svelte';
 import L from 'leaflet';
 import { trimToLength } from './util/string';
 import { LAST_UPDATED } from './util/data.js';
+import { dateStrForDisplay } from './util/date.js';
 
 let { source, center, zoom, markers, width, height, title, baseUrl, iconName, baseMap, 
   computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();  // center on coords if they are passed in
@@ -44,8 +45,9 @@ function addMarkers(markerData) {
   markerLayer.clearLayers();
   markerData.forEach(function(point) {
     const marker = L.marker([point.lat, point.lon],  {icon});
-    marker.bindPopup(`<b>${point.date} in ${point.location}</b>`+
-                     `<br /><i>${trimToLength(point.actor, 100)}</i><br />${trimToLength(point.summary, 200)}<br />`);
+    const actor = (point.actor == "NA" || !point.actor) ? "Unkown group" : trimToLength(point.actor, 100);
+    marker.bindPopup(`<b>${dateStrForDisplay(point.date)} in ${point.location}</b>`+
+                     `<br /><i>${actor}</i><br />${trimToLength(point.summary, 200)}<br />`);
     markerLayer.addLayer(marker);
   });
 }
@@ -82,7 +84,7 @@ $effect(() => {
   <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
     Created with <a href={baseUrl}>Protest Map</a>.
-    Data last updated {LAST_UPDATED.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} from
+    Data last updated {dateStrForDisplay(LAST_UPDATED)} from
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
     {:else if source == "CCC"}

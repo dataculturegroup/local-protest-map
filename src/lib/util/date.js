@@ -1,3 +1,5 @@
+import { shortAP } from 'ap-style-date';
+
 
 // interpret the date from the user in browser local timezone
 export const userDateStrToDate = (dateStr) => {
@@ -5,5 +7,6 @@ export const userDateStrToDate = (dateStr) => {
   return new Date(year, month - 1, day);
 };
 
-export const userDateStrToDisplay = (dateStr) => 
-  userDateStrToDate(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+export const userDateStrToDisplay = (dateStr) => shortAP(userDateStrToDate(dateStr));
+
+export const dateStrForDisplay = (date) => shortAP(date);

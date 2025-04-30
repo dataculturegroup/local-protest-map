@@ -8,7 +8,7 @@
   import Footer from './lib/Footer.svelte'
   import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED } from './lib/util/data.js';
   import { marker } from 'leaflet';
-  import { userDateStrToDate } from './lib/util/date.js';
+  import { userDateStrToDate, userDateStrToDisplay } from './lib/util/date.js';
 
   const VERSION = '1.2.1';
 
@@ -33,8 +33,7 @@
   const title = $derived.by(() => { // duplivative, but need it here for embed
     if (mapSettings.includeTitle === false) return null;
     let t = "Protests ";
-    const formatDate = (date) => new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-    t += `between ${formatDate(mapSettings.startDate)} and ${formatDate(mapSettings.endDate)}`;
+    t += `between ${userDateStrToDisplay(mapSettings.startDate)} and ${userDateStrToDisplay(mapSettings.endDate)}`;
     return t;
   });
   let data = $state({acled: [], ccc: []});   // filled in by onMount
