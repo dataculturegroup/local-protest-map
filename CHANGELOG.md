@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.3.0
+
+ * Tweak location a little for events in _exact_ same place so they are more visible
+
 ### v1.2.2
 
  * change dates to match AP short style
