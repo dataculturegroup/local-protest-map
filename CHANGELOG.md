@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.2.2
+
+ * change dates to match AP short style
+
 ### v1.2.1
 
  * fix build params
