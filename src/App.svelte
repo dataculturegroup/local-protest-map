@@ -8,7 +8,7 @@
   import Footer from './lib/Footer.svelte';
   import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED, randomizeColocatedEvents } from './lib/util/data.js';
   import { marker } from 'leaflet';
-  import { userDateStrToDate, userDateStrToDisplay } from './lib/util/date.js';
+  import { userDateStrToDate, userDateStrForDisplay } from './lib/util/date.js';
 
   const VERSION = '1.3.0';
 
@@ -23,7 +23,7 @@
     coords: [],
     radiusMiles: '50',
     startDate: '2025-01-01', // hack to get GMT date
-    endDate: dayjs(LAST_UPDATED).format('YYYY-MM-DD'), // latest date new data was pulled
+    endDate: dayjs(LAST_UPDATED['ACLED']).format('YYYY-MM-DD'), // latest date new data was pulled
     width: 700,
     height: 350,
     markerIcon: 'pin',
@@ -33,7 +33,7 @@
   const title = $derived.by(() => { // duplivative, but need it here for embed
     if (mapSettings.includeTitle === false) return null;
     let t = "Protests ";
-    t += `between ${userDateStrToDisplay(mapSettings.startDate)} and ${userDateStrToDisplay(mapSettings.endDate)}`;
+    t += `between ${userDateStrForDisplay(mapSettings.startDate)} and ${userDateStrForDisplay(mapSettings.endDate)}`;
     return t;
   });
   let data = $state({acled: [], ccc: []});   // filled in by onMount

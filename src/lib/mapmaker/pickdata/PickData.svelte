@@ -2,12 +2,14 @@
   import Locator from "./Locator.svelte";
   import EventTable from './EventTable.svelte';
   import { map } from "leaflet";
-  import { userDateStrToDisplay } from "../../util/date";
+  import { userDateStrForDisplay, dateStrForDisplay } from "../../util/date";
   import { LAST_UPDATED } from "../../util/data";
 
   const PREVIEW_SAMPLE_SIZE = 20;
 
   let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
+
+  const endDateTooRecent = $derived(new Date(mapSettings.endDate) > LAST_UPDATED[mapSettings.source]);
 </script>
 
 <div class="row">
@@ -18,9 +20,9 @@
     <form>
 
       <div class="form-group">
-        <label for="dataSource">Map Area:</label>
+        <label for="radius">Map Area:</label>
         <Locator bind:mapSettings />
-        <small id="dataSourceHelp" class="form-text text-muted">
+        <small id="radiusHelp" class="form-text text-muted">
           {#if mapSettings.coords.length > 0}
             Map centered at: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
           {:else}
@@ -35,6 +37,9 @@
           <option value="ACLED">ACLED</option>
           <option value="CCC">CCC</option>
         </select>
+        <small id="dataSourceHelp" class="form-text text-muted">
+          {mapSettings.source} includes data through {dateStrForDisplay(LAST_UPDATED[mapSettings.source])}.
+        </small>
       </div>
 
       <div class="form-group">
@@ -43,6 +48,11 @@
           from <input type="date" id="startDate" name="startDate" bind:value={mapSettings.startDate} />
             to <input type="date" id="endDate" name="endDate" bind:value={mapSettings.endDate} />
         </div>
+        {#if endDateTooRecent }
+          <small id="dateStartEndHelp" class="form-text text-danger">
+            ⚠️ The end date is too recent. {mapSettings.source} only includes data through {dateStrForDisplay(LAST_UPDATED[mapSettings.source])}.
+          </small>
+        {/if}
       </div>
 
     </form>
@@ -62,7 +72,7 @@
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
           <p>Found <strong>{events.length} protests</strong> from {mapSettings.source} in the area 
-            between {userDateStrToDisplay(mapSettings.startDate)} and {userDateStrToDisplay(mapSettings.endDate)}.
+            between {userDateStrForDisplay(mapSettings.startDate)} and {userDateStrForDisplay(mapSettings.endDate)}.
             Here are the most recent:</p>
           <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
         {/if}

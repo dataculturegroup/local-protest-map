@@ -86,7 +86,7 @@ $effect(() => {
   <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
     Created with <a href={baseUrl}>Protest Map</a>.
-    Data last updated {dateStrForDisplay(LAST_UPDATED)} from
+    Data last updated {dateStrForDisplay(LAST_UPDATED[source])} from
     {#if source == "ACLED"}
       <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
     {:else if source == "CCC"}

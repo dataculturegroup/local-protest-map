@@ -1,7 +1,7 @@
-🚧 Local Protest Mapper 🚧
-==========================
+Local Protest Mapper
+====================
 
-A small Svelte tool for journalists to create maps of local protests that they can embed in stories.
+A small Svelte tool for journalists to create maps of local protests that they can embed in stories. Specify a locaton and get an embeddable map of protest in your area sourced from [ACLED](https://acleddata.com) or [CCC](https://ash.harvard.edu/programs/crowd-counting-consortium/).
 
 ## Installation
 
