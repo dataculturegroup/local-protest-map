@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.3.1
+
+ * Improve feedback on dates included in data
+
 ### v1.3.0
 
  * Tweak location a little for events in _exact_ same place so they are more visible
