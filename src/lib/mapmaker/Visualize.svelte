@@ -45,6 +45,7 @@
       <div class="form-group">
         <label for="zoomLevel">Zoom:</label>
         <select id="zoomLevel" name="zoom" bind:value={mapSettings.zoom}>
+          <option value=4>4</option>
           <option value=5>5</option>
           <option value=6>6</option>
           <option value=7>7</option>
@@ -72,6 +73,14 @@
         <label>
           <input type="radio" name="markerIcon" value="pin" bind:group={mapSettings.markerIcon}>
           <img src="pin.png" alt="a geographic pin marker">
+        </label>
+        <label>
+          <input type="radio" name="markerIcon" value="circle" bind:group={mapSettings.markerIcon}>
+          <img src="circle.png" alt="a simple empty circle">
+        </label>
+        <label>
+          <input type="radio" name="markerIcon" value="dot" bind:group={mapSettings.markerIcon}>
+          <img src="dot.png" alt="a simple filled dot">
         </label>
         <label>
           <input type="radio" name="markerIcon" value="fist" bind:group={mapSettings.markerIcon}>

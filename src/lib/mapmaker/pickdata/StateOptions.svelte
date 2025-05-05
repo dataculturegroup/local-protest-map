@@ -1,8 +1,7 @@
 <script>
-    import stateLatLng from './stateLatLng.json';
-    const stateNames = Object.keys(stateLatLng);
+  import states from './states.json';
 </script>
 
-{#each stateNames as stateName}
-    <option value={stateName}>{stateName}</option>
+{#each states as usState}
+    <option value={usState['id']}>{usState['name']}</option>
 {/each}

@@ -1,15 +1,9 @@
 <script>
   import Map from './Map.svelte';
-  import { dateStrForDisplay } from './util/date.js';
+  import { autoTitle } from './util/string.js';
   let { mapSettings, events, baseUrl, computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();
   
-  const title = $derived.by(() => {
-    if (mapSettings.includeTitle === false) return null;
-    let t = "Protests ";
-    t += `between ${dateStrForDisplay(mapSettings.startDate)} and ${dateStrForDisplay(mapSettings.endDate)}`;
-    return t;
-  });
-
+  const title = $derived.by(() => autoTitle(mapSettings));
 </script>
 
 <section>

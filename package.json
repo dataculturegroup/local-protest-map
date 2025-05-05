@@ -17,6 +17,7 @@
   "dependencies": {
     "dayjs": "^1.11.13",
     "leaflet": "^1.9.4",
+    "leaflet-markers-canvas": "^0.2.2",
     "papaparse": "^5.5.2"
   }
 }
