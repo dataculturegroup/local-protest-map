@@ -3,6 +3,7 @@
   import MapPreview from '../MapPreview.svelte';
   import { onMount } from 'svelte';
   import { preventDefault } from 'svelte/legacy';
+  import { DEFAULT_ZOOM, DEFAULT_RADIUS } from '../util/data';
 
   let computedHeight = $state(null);
 
@@ -10,15 +11,16 @@
     v: 1, // track a version in case this protocol changes in the future
     s: mapSettings.source || 'ACLED',
     c: [mapSettings.coords[0], mapSettings.coords[1]],
-    z: mapSettings.zoom || 8,
-    r: mapSettings.radiusMiles || 50,
+    z: mapSettings.zoom || DEFAULT_ZOOM,
+    r: mapSettings.radiusMiles || DEFAULT_RADIUS,
     sd: new Date(mapSettings.startDate).toISOString().split('T')[0],
     ed: new Date(mapSettings.endDate).toISOString().split('T')[0],
     w: mapSettings.width || 600,
     h: mapSettings.height || 400,
     i: mapSettings.markerIcon || 'pin',
     t: mapSettings.includeTitle ? 1 : 0,
-    m: mapSettings.baseMap || 'alidade-smooth'
+    m: mapSettings.baseMap || 'alidade-smooth',
+    a: mapSettings.stateId || ''
   });
   const params = $derived.by(() => {
     let p = new URLSearchParams();

@@ -1,12 +1,15 @@
 <script>
   import dayjs from 'dayjs';
-  import { onMount } from 'svelte'
+  import { onMount } from 'svelte';
+  import usStates from './lib/mapmaker/pickdata/states.json';
 
   import Map from './lib/Map.svelte';
   import Header from './lib/Header.svelte';
   import MapMaker from './lib/mapmaker/MapMaker.svelte';
   import Footer from './lib/Footer.svelte';
-  import { getData, isWithinRadius, ACLED_URL, CCC_URL, LAST_UPDATED, randomizeColocatedEvents } from './lib/util/data.js';
+  import { getData, isWithinRadius, ACLED_URL, DEFAULT_ZOOM, DEFAULT_RADIUS, CCC_URL, LAST_UPDATED,
+    randomizeColocatedEvents } from './lib/util/data.js';
+  import { autoTitle } from './lib/util/string.js';
   import { marker } from 'leaflet';
   import { userDateStrToDate, userDateStrForDisplay } from './lib/util/date.js';
 
@@ -19,23 +22,19 @@
   let computedHeight = $state(null); // throwaway placeholder used when rendering embed
   let mapSettings = $state({  // use reasonable defaults
     source: 'ACLED',
-    zoom: '8',
+    zoom: DEFAULT_ZOOM,
     coords: [],
-    radiusMiles: '50',
+    radiusMiles: DEFAULT_RADIUS,
     startDate: '2025-01-01', // hack to get GMT date
     endDate: dayjs(LAST_UPDATED['ACLED']).format('YYYY-MM-DD'), // latest date new data was pulled
     width: 700,
     height: 350,
     markerIcon: 'pin',
     includeTitle: true,
-    baseMap: 'alidade-smooth'
+    baseMap: 'alidade-smooth',
+    stateId: null,
   })
-  const title = $derived.by(() => { // duplivative, but need it here for embed
-    if (mapSettings.includeTitle === false) return null;
-    let t = "Protests ";
-    t += `between ${userDateStrForDisplay(mapSettings.startDate)} and ${userDateStrForDisplay(mapSettings.endDate)}`;
-    return t;
-  });
+  const title = $derived.by(() => autoTitle(mapSettings));
   let data = $state({acled: [], ccc: []});   // filled in by onMount
 
   let events = $derived.by(() =>{
@@ -45,9 +44,12 @@
     } else if (mapSettings.source == 'CCC') {
       allEvents = data.ccc;
     }
-    allEvents = allEvents.filter(
-      row => isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radiusMiles)
-    );
+    allEvents = allEvents.filter(row => {
+      if (mapSettings.stateId) {
+        return row.stateId == mapSettings.stateId;
+      }
+      return isWithinRadius(mapSettings.coords[1], mapSettings.coords[0], row.lat, row.lon, mapSettings.radiusMiles)
+    });
     allEvents = allEvents.filter(
       row => {
         const rowDate = new Date(row.date);
@@ -75,7 +77,8 @@
         height: urlParams.h,
         markerIcon: urlParams.i,
         includeTitle: urlParams.t == '1',
-        baseMap: urlParams.m
+        baseMap: urlParams.m,
+        stateId: urlParams.a,
       };
     } catch (error) { // bad data on URL, so ignore it
       urlMapSettings = null;
@@ -89,14 +92,16 @@
     data.acled = data.acled.map(row => ({
       lat: row.latitude, lon: row.longitude, date: row.event_date,
       location: `${row.location}, ${row.admin1}`, actor: row.assoc_actor_1,
-      summary: row.notes, locRandomized: false
+      summary: row.notes, locRandomized: false,
+      stateId: usStates.find(s => s.name == row.admin1).id
     }));
     data.acled = randomizeColocatedEvents(data.acled);
     data.ccc = await getData(CCC_URL);
     data.ccc = data.ccc.map(row => ({
       lat: row.lat, lon: row.lon, date: row.date,
       location: `${row.resolved_locality}, ${row.resolved_state}`, actor: row.organizations,
-      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`, locRandomized: false
+      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`, locRandomized: false,
+      stateId: row.resolved_state
     }));
     data.ccc = randomizeColocatedEvents(data.ccc);
     loadingData = false;

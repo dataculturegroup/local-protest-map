@@ -24,7 +24,12 @@
         <Locator bind:mapSettings />
         <small id="radiusHelp" class="form-text text-muted">
           {#if mapSettings.coords.length > 0}
-            Map centered at: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
+            Map will be centered 
+            {#if mapSettings.stateId}
+              on {mapSettings.stateId}
+            {:else}
+              at: {mapSettings.coords[0].toFixed(4)}, {mapSettings.coords[1].toFixed(4)}
+            {/if}
           {:else}
             ⚠️ Pick a location
           {/if}
@@ -71,7 +76,9 @@
         {#if events.length == 0}
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
-          <p>Found <strong>{events.length} protests</strong> from {mapSettings.source} in the area 
+          <p>Found <strong>{events.length} protests</strong> 
+            from {mapSettings.source} data in 
+            {mapSettings.stateId ? mapSettings.stateId : "the area"} 
             between {userDateStrForDisplay(mapSettings.startDate)} and {userDateStrForDisplay(mapSettings.endDate)}.
             Here are the most recent:</p>
           <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>

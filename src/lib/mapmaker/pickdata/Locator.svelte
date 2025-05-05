@@ -1,12 +1,14 @@
 <script>
-  import stateLocations from './stateLatLng.json';
+  import usStates from './states.json';
   import StateOptions from './StateOptions.svelte';
+
+  import { DEFAULT_ZOOM } from "../../util/data";
+
   let { mapSettings=$bindable(mapSettings) } = $props();
   let geolocationSupported = navigator.geolocation ? true : false;
 
   let locating = $state(false);
   let located = $state(false);
-  let selectedState = $state("");
 
   // event handler: use the browser's geolocation API to find the user's location when user clicks "automatically detect" 
   function handleAutoLocate() {
@@ -18,7 +20,7 @@
     mapSettings.coords = [position.coords.longitude, position.coords.latitude]; // lon, lat
     locating = false;
     located = true;
-    selectedState = ""; // reset the state selection
+    mapSettings.stateId = null; // clear out the stateId
   }
 
   // event handler: when the browser's geolocation API fails to find the user's location show a reasonable error msg
@@ -45,13 +47,15 @@
     locating = false;
   }
 
-  function handleStateSelected() {
-    const latlon = stateLocations[selectedState];
-    if (latlon.length == 0) { 
-      mapSettings.coords = [];  // reset to nothing
-      return; 
+  $effect( () => {
+    let selectedState = usStates.find(row => mapSettings.stateId == row.id);
+    if (selectedState) {
+      mapSettings.coords = [selectedState.location[1], selectedState.location[0]]; // lat, lon
+      mapSettings.zoom = selectedState.zoomLevel;
     }
-    mapSettings.coords = [latlon[1], latlon[0]]; // lat, lon
+  });
+
+  function handleStateSelected() {
     located = false;
   }
 </script>
@@ -84,7 +88,7 @@
 
   <div class="text-secondary">
     ( or pick a state
-    <select id="stateChoices" onchange={handleStateSelected} bind:value={selectedState} aria-describedby="stateChoicesHelp" >
+    <select id="stateChoices" onchange={handleStateSelected} bind:value={mapSettings.stateId} aria-describedby="stateChoicesHelp" >
       <option value="">None</option>
       <StateOptions />
     </select> )
