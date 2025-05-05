@@ -45,7 +45,6 @@ function createMap(container) {
 function addMarkers(markerData) {
   if (!map || !markerLayer) return;
   clearMarkerLayers();
-  console.log(iconName);
   const icon = L.icon({
       iconUrl: `${iconName}.png`,
       iconSize:     (iconName=='dot' || iconName=='circle') ? [10,10] : [30, 30], // size of the icon
