@@ -10,6 +10,8 @@
 
   let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
 
+  const userPickedLocation = $derived((mapSettings.coords.length > 0) || ((mapSettings.stateId != null) && (mapSettings.stateId.length > 0)));
+  
   const endDateTooRecent = $derived(new Date(mapSettings.endDate) > LAST_UPDATED[mapSettings.source]);
 
   $effect(() => {
@@ -81,7 +83,7 @@
 
   <div class="col-md-8">
     <section style="min-height: 500px;">
-      {#if okToProceed}
+      {#if userPickedLocation}
         {#if events.length == 0}
           <p>⚠️ No protests found in this area. Try expanding your radius.</p>
         {:else if events.length > 0}
@@ -90,7 +92,7 @@
             {mapSettings.stateId ? mapSettings.stateId : "the area"} 
             between {userDateStrForDisplay(mapSettings.startDate)} and {userDateStrForDisplay(mapSettings.endDate)}.
             Here are the most recent:</p>
-          <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE}/>
+          <EventTable {events} sampleSize={PREVIEW_SAMPLE_SIZE} />
         {/if}
       {:else}
         <div id="preview">

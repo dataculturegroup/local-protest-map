@@ -57,7 +57,11 @@
   });
 
   function handleStateSelected() {
-    located = false;
+    if((mapSettings.stateId == null) || (mapSettings.stateId.length == 0)) {
+      mapSettings.coords = [];
+    } else {
+      located = false;
+    }
   }
 </script>
 
