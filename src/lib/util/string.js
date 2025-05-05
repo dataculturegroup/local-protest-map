@@ -16,7 +16,7 @@ export function autoTitle(mapSettings) {
   if (mapSettings.stateId) {
     t += `in ${mapSettings.stateId} `;
   } else {
-    t += `within ${mapSettings.radius} miles `;
+    t += `within ${mapSettings.radiusMiles} miles `;
   }
   t += `between ${dateStrForDisplay(mapSettings.startDate)} and ${dateStrForDisplay(mapSettings.endDate)}`;
   return t;
