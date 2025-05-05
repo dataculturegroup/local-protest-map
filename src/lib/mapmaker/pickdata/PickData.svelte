@@ -10,6 +10,14 @@
   let { mapSettings=$bindable(mapSettings), updateStep, events, okToProceed } = $props();
 
   const endDateTooRecent = $derived(new Date(mapSettings.endDate) > LAST_UPDATED[mapSettings.source]);
+
+  $effect(() => {
+    if (events.length > 100) {
+      mapSettings.markerIcon = 'dot';
+    } else {
+      mapSettings.markerIcon = 'pin';
+    }
+  })
 </script>
 
 <div class="row">

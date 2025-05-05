@@ -1,9 +1,11 @@
 <script>
 import { onMount } from 'svelte';
 import L from 'leaflet';
+import 'leaflet-markers-canvas';
 import { trimToLength } from './util/string';
 import { LAST_UPDATED } from './util/data.js';
 import { dateStrForDisplay } from './util/date.js';
+    import PickData from './mapmaker/pickdata/PickData.svelte';
 
 let { source, center, zoom, markers, width, height, title, baseUrl, iconName, baseMap, 
   computedHeight=$bindable(computedHeight), onMoveEnd=null } = $props();  // center on coords if they are passed in
@@ -11,6 +13,7 @@ let { source, center, zoom, markers, width, height, title, baseUrl, iconName, ba
 let map;
 let markerLayer;
 let baseLayer;
+let useCanvasLayer = markers.length > 300;
 
 if (baseMap == 'toner') {
   baseLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
@@ -27,7 +30,12 @@ if (baseMap == 'toner') {
 function createMap(container) {
   map = L.map(container, {preferCanvas: true, scrollWheelZoom: false, zoomControl: false }).setView(center, zoom);
   baseLayer.addTo(map);
-  markerLayer = L.layerGroup().addTo(map);
+  if (useCanvasLayer) {
+    markerLayer = new L.MarkersCanvas();  // Use the constructor explicitly becuase it is a plugin...
+  } else {
+    markerLayer = L.layerGroup(); // ... otherwise use the default layerGroup
+  }
+  markerLayer.addTo(map); //... and now add once it is constructed
   addMarkers(markers);
   if (onMoveEnd) {
     map.on('moveend', () => onMoveEnd(map.getCenter()));
@@ -36,22 +44,29 @@ function createMap(container) {
 
 function addMarkers(markerData) {
   if (!map || !markerLayer) return;
+  clearMarkerLayers();
+  console.log(iconName);
   const icon = L.icon({
-    iconUrl: `${iconName}.png`,
-    iconSize:     [30, 30], // size of the icon
-    iconAnchor:   [15, 30], // point of the icon which will correspond to marker's location
-    popupAnchor:  [0, -30] // point from which the popup should open relative to the iconAnchor
+      iconUrl: `${iconName}.png`,
+      iconSize:     (iconName=='dot' || iconName=='circle') ? [10,10] : [30, 30], // size of the icon
+      iconAnchor:   (iconName=='dot' || iconName=='circle') ? [0,0] : [15, 30], // point of the icon which will correspond to marker's location
+      popupAnchor:  (iconName=='dot' || iconName=='circle') ? [5, 0] : [0, -30] // point from which the popup should open relative to the iconAnchor
   });
-  markerLayer.clearLayers();
-  markerData.forEach(function(point) {
-    const marker = L.marker([point.lat, point.lon],  {icon});
+  const actualMarkers = markerData.map(point => {
+    let marker;
+    marker = L.marker([point.lat, point.lon],  {icon});
     const actor = (point.actor == "NA" || !point.actor) ? "Unkown group" : trimToLength(point.actor, 100);
     const locTweaked = point.locRandomized ? "<br /><i>Location tweaked for visibility</i>" : '';
     marker.bindPopup(`<b>${dateStrForDisplay(point.date)} in ${point.location}</b>`+
                      `<br /><i>${actor}</i><br />${trimToLength(point.summary, 200)}`+
                      `${locTweaked}`);
-    markerLayer.addLayer(marker);
+    return marker;
   });
+  if (useCanvasLayer) {
+    markerLayer.addMarkers(actualMarkers);
+  } else {
+    actualMarkers.forEach(m => markerLayer.addLayer(m));
+  }  
 }
 
 function mapAction(container) {
@@ -65,11 +80,19 @@ onMount(() => {
   }
 })
 
+function clearMarkerLayers() {
+  if (useCanvasLayer) {
+    markerLayer.clear();
+  } else {
+    markerLayer.clearLayers();
+  }
+}
+
 // make sure that the map content and view is updated when new data is passed in
 $effect(() => {
   if (!map || !markerLayer) return;
   map.setView(center, zoom);
-  markerLayer.clearLayers();
+  clearMarkerLayers();
   addMarkers(markers);
   const mapWrapper = document.getElementById('mapWrapper');
   if (mapWrapper) {
