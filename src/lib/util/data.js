@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 
 export const CANVAS_MAP_THRESHOLD = 250; // once this many events on map, use canvas rendering
 export const DEFAULT_ZOOM = '8';
-export const DEFAULT_RADIUS = '50';
+export const DEFAULT_RADIUS = '20';
 export const ACLED_URL = "acled-2025-04-29.csv";
 export const CCC_URL = "ccc-2025-04-01.csv";
 export const LAST_UPDATED = {

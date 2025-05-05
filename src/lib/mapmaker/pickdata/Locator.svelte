@@ -70,6 +70,8 @@
   <br />
   Within 
   <select id="radius" name="radius" bind:value={mapSettings.radiusMiles}>
+    <option value=5>5 miles</option>
+    <option value=10>10 miles</option>
     <option value=20>20 miles</option>
     <option value=50>50 miles</option>
     <option value=75>75 miles</option>
