@@ -4,6 +4,7 @@ Change Log
 ### v1.4.0
 
  * Support state-level display and related icons, text, and titles
+ * Improve "no events found" feedback
 
 ### v1.3.1
 
