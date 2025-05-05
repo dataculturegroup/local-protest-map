@@ -21,6 +21,7 @@
     locating = false;
     located = true;
     mapSettings.stateId = null; // clear out the stateId
+    mapSettings.zoom = DEFAULT_ZOOM; // reset the zoom level
   }
 
   // event handler: when the browser's geolocation API fails to find the user's location show a reasonable error msg
