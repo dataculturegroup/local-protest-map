@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.4.0
+
+ * Support state-level display and related icons, text, and titles
+
 ### v1.3.1
 
  * Improve feedback on dates included in data
