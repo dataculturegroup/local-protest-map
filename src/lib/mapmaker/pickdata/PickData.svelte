@@ -3,6 +3,7 @@
   import EventTable from './EventTable.svelte';
   import { map } from "leaflet";
   import { userDateStrForDisplay, dateStrForDisplay } from "../../util/date";
+  import { CANVAS_MAP_THRESHOLD } from "../../util/data";
   import { LAST_UPDATED } from "../../util/data";
 
   const PREVIEW_SAMPLE_SIZE = 20;
@@ -12,7 +13,7 @@
   const endDateTooRecent = $derived(new Date(mapSettings.endDate) > LAST_UPDATED[mapSettings.source]);
 
   $effect(() => {
-    if (events.length > 100) {
+    if (events.length > CANVAS_MAP_THRESHOLD) {
       mapSettings.markerIcon = 'dot';
     } else {
       mapSettings.markerIcon = 'pin';

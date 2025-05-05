@@ -3,7 +3,7 @@ import { onMount } from 'svelte';
 import L from 'leaflet';
 import 'leaflet-markers-canvas';
 import { trimToLength } from './util/string';
-import { LAST_UPDATED } from './util/data.js';
+import { LAST_UPDATED, CANVAS_MAP_THRESHOLD } from './util/data.js';
 import { dateStrForDisplay } from './util/date.js';
     import PickData from './mapmaker/pickdata/PickData.svelte';
 
@@ -13,7 +13,7 @@ let { source, center, zoom, markers, width, height, title, baseUrl, iconName, ba
 let map;
 let markerLayer;
 let baseLayer;
-let useCanvasLayer = markers.length > 300;
+let useCanvasLayer = markers.length > CANVAS_MAP_THRESHOLD;
 
 if (baseMap == 'toner') {
   baseLayer = L.tileLayer('https://tiles.stadiamaps.com/tiles/stamen_toner_lite/{z}/{x}/{y}{r}.png', {
