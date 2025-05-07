@@ -54,7 +54,7 @@ function addMarkers(markerData) {
   const actualMarkers = markerData.map(point => {
     let marker;
     marker = L.marker([point.lat, point.lon],  {icon});
-    const actor = (point.actor == "NA" || !point.actor) ? "Unkown group" : trimToLength(point.actor, 100);
+    const actor = (point.actor == "NA" || !point.actor) ? "Unknown group" : trimToLength(point.actor, 100);
     const locTweaked = point.locRandomized ? "<br /><i>Location tweaked for visibility</i>" : '';
     marker.bindPopup(`<b>${dateStrForDisplay(point.date)} in ${point.location}</b>`+
                      `<br /><i>${actor}</i><br />${trimToLength(point.summary, 200)}`+
