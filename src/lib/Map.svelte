@@ -105,7 +105,7 @@ $effect(() => {
   {#if title}
     <h3>{title}</h3>
   {/if}
-  <div class="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
+  <div class="map" id="map" use:mapAction style="width: {width}px; height: {height}px;"></div>
   <figcaption  style="width: {width}px;">
     Created with <a href={baseUrl}>Protest Map</a>.
     Data last updated {dateStrForDisplay(LAST_UPDATED[source])} from
