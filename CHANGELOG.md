@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.5.1
+
+ * Updat to May 2 ACLED data
+
 ### v1.5.0
 
  * Add .png file download option
