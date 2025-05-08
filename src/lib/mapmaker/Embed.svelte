@@ -32,7 +32,7 @@
     return p;
   });
   const url = $derived(`${baseUrl}?${params.toString()}`);
-  const iframeCode = $derived(`<iframe title="Protest Map" aria-label="Map of ${events.length} local protests" id="local-protest-map-embed" src="${url}" width="${mapSettings.width}" height="${computedHeight}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
+  const iframeCode = $derived(`<iframe title="Protest Mapper" aria-label="Map of ${events.length} local protests" id="local-protest-mapper-embed" src="${url}" width="${mapSettings.width}" height="${computedHeight}" frameborder="0" scrolling="no" data-external="1" style="border: none;"></iframe>`);
 
 
   function handleDownload() {
@@ -44,7 +44,7 @@
     }).then(canvas => {
       const link = document.createElement('a');
       link.href = canvas.toDataURL('image/png');
-      link.download = 'protest map.png';
+      link.download = 'protest mapper export.png';
       link.click();
     });
   };

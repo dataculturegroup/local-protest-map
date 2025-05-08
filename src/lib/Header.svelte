@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <div id="title-wrapper">
-          <h1>Protest Map</h1>
+          <h1>Protest Mapper</h1>
           <img id="logo" src="logo.png" alt="Logo" class="logo"/>
         </div>
       </div>
