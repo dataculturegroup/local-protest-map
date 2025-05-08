@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.5.0
+
+ * Add .png file download option
+
 ### v1.4.0
 
  * Support state-level display and related icons, text, and titles
