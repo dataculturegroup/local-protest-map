@@ -25,6 +25,7 @@
         <p>
           Use the simple tool below to create an embeddable simple map of protests in your area. The underlying data is 
           updated once a week on Mondays, and includes protests from the start of the year till that date.
+          <a href="https://www.storybench.org/try-this-tool-to-map-protests-for-local-news/">Learn more on the Storybench blog post</a>.
         </p>
       </div>
       <div class="col-md-4">
