@@ -97,12 +97,13 @@
     }));
     data.acled = randomizeColocatedEvents(data.acled);
     data.ccc = await getData(CCC_URL);
-    data.ccc = data.ccc.map(row => ({
-      lat: row.lat, lon: row.lon, date: row.date,
-      location: `${row.resolved_locality}, ${row.resolved_state}`, actor: row.organizations,
-      summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`, locRandomized: false,
-      stateId: row.resolved_state
-    }));
+    data.ccc = data.ccc
+      .filter(row => row.lat != "NA" && row.lon != "NA") // a very small number of rows aren't geolocated
+      .map(row => ({
+        lat: row.lat, lon: row.lon, date: row.date,
+        location: `${row.resolved_locality}, ${row.resolved_state}`, actor: row.organizations,
+        summary: `${row.event_type} ${row.claims_summary}. About ${row.issues}.`, locRandomized: false,
+        stateId: row.resolved_state}));
     data.ccc = randomizeColocatedEvents(data.ccc);
     loadingData = false;
   });
