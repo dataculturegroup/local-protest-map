@@ -1,9 +1,13 @@
 Change Log
 ==========
 
+### v1.5.2
+
+ * Ignore CCC rows that aren't geolocated
+
 ### v1.5.1
 
- * Updat to May 2 ACLED data
+ * Update to May 2 ACLED data
 
 ### v1.5.0
 

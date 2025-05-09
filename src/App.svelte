@@ -13,7 +13,7 @@
   import { marker } from 'leaflet';
   import { userDateStrToDate, userDateStrForDisplay } from './lib/util/date.js';
 
-  const VERSION = '1.5.1';
+  const VERSION = '1.5.2';
 
   const baseUrl = `${document.location.origin}${document.location.pathname}`;
 
