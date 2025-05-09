@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### v1.5.3
+
+ * Link to Storybench blog post in intro
+ * Improve footer links
+
 ### v1.5.2
 
  * Ignore CCC rows that aren't geolocated
