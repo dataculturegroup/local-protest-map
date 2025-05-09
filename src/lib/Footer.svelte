@@ -5,18 +5,18 @@
 <footer>
   <div class="container">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-6">
         <p>
-          Created by <a href="https://bsky.app/profile/rahulbot.bsky.social">Rahul Bhargava</a>.
-          <br />
-          A project of the <a href="https://dataculture.northeastern.edu/" target="_new">Data Culture Group</a> in the School of Journalism and Media Innovation at Northeastern University.
-          <br />
-          Created as <a href="https://github.com/dataculturegroup/local-protest-map">an open-source project</a> using the Svelte component library.
-          <br />
-          Version {version}
+          Protest Mapper is an 
+          <a href="https://github.com/dataculturegroup/local-protest-map" target="_new">open-source project</a> 
+          of the <a href="https://dataculture.northeastern.edu/" target="_new">Data Culture Group</a> in 
+          the <a href="https://camd.northeastern.edu/journalism/" target="_new">School of Journalism and Media Innovation</a> 
+          at Northeastern University.
         </p>
+        <p>Created by <a href="https://bsky.app/profile/rahulbot.bsky.social">Rahul Bhargava</a>.</p>
+        <p>Version {version}</p>
       </div>
-      <div class="col-md-2">
+      <div class="col-md-2 offset-4">
         <div class="logo-wrapper">
           <a href="https://dataculture.northeastern.edu" target=_new>
             <img src="https://dataculture.northeastern.edu/static/img/dcg-logo.png" alt="Data Culture Group Logo" style="width: 100px; height: auto;" />
