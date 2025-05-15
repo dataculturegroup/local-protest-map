@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.5.4
+
+ * Updated to latest data
+
 ### v1.5.3
 
  * Link to Storybench blog post in intro
