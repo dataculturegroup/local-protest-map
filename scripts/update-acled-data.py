@@ -2,6 +2,7 @@ import logging
 import datetime as dt
 import os
 import csv
+import re
 from dotenv import load_dotenv
 import requests
 from typing import List, Dict
@@ -34,19 +35,22 @@ def likely_update_date() -> str:
         most_recent_monday = today - dt.timedelta(days=days_since_monday)
     return most_recent_monday.strftime('%Y-%m-%d')
 
-def update_json(new_filename: str, py_file_path: str) -> None:
+def update_json(new_filename: str, py_file_path: str) -> str:
     # update the JSON file that feeds the interactive to point at the newly named file (hack)
+    # return the filename to delete from public
+    last_filename = None
     with open(py_file_path, 'r') as file:
         content = file.readlines()
-    found = False
     for i, line in enumerate(content):
         if 'export const ACLED_URL =' in line:
+            match = re.search(r'export const ACLED_URL = "([^"]+)"', line)
+            last_filename = match.group(1) if match and (match.group(1) != new_filename) else None
             content[i] = f'export const ACLED_URL = "{new_filename}";\n'
-            found = True
             break
     with open(py_file_path, 'w') as file:
         file.writelines(content)
     logger.debug(f"Successfully updated {py_file_path} with new filename: {new_filename}")
+    return last_filename
 
 def fetch_results(page=1) -> List[Dict]:
     # fetch a page of results from ACLED API
@@ -95,8 +99,21 @@ if __name__ == "__main__":
 
         # now update the JSON to point at this new file (kind of a hack)
         json_filename = 'data.js'
-        update_json(csv_filename, os.path.join(base_dir, 'src', 'lib', 'util', json_filename))
+        last_filename = update_json(csv_filename,
+                                    os.path.join(base_dir, 'src', 'lib', 'util', json_filename))
         logger.info(f"Updated {json_filename} to point to {csv_filename}")
+
+        # delete the old file from public
+        if last_filename:
+            last_filepath = os.path.join(base_dir, 'public', last_filename)
+            if os.path.exists(last_filepath):
+                os.remove(last_filepath)
+                logger.info(f"Deleted {last_filename} from public")
+            else:
+                logger.warning(f"{last_filename} does not exist in public")
+        else:
+            logger.warning("No previous filename found to delete")
+
         exit(0)
     except Exception as e:
         logger.error(f"Error: {e}")
