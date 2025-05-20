@@ -11,10 +11,6 @@ on:
 jobs:
   update-acled-data:
     runs-on: ubuntu-latest
-    env:
-      # For non-sensitive data (repository variables)
-      ACLED_API_KEY: ${{ vars.ACLED_API_KEY }}
-      ACLED_EMAIL: ${{ vars.ACLED_EMAIL }}
 
     steps:
       # Check out the repository code
@@ -35,6 +31,9 @@ jobs:
       # Run your update script and capture exit code
       - name: Run ACLED data update script
         id: update_script
+        env:
+          ACLED_API_KEY: ${{ secrets.ACLED_API_KEY }}
+          ACLED_EMAIL: ${{ secrets.ACLED_EMAIL }}
         run: |
           python scripts/update-acled-data.py
           echo "exit_code=$?" >> $GITHUB_OUTPUT
