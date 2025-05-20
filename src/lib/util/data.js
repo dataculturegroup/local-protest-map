@@ -3,7 +3,7 @@ import Papa from 'papaparse';
 export const CANVAS_MAP_THRESHOLD = 250; // once this many events on map, use canvas rendering
 export const DEFAULT_ZOOM = '8';
 export const DEFAULT_RADIUS = '20';
-export const ACLED_URL = "acled-2025-05-09.csv";
+export const ACLED_URL = "acled-2025-05-19.csv";
 export const CCC_URL = "ccc-2025-05-08.csv";
 const FILE_NAME_DATE_FORMAT = /\d{4}-\d{2}-\d{2}/; // YYYY-MM-DD
 export const LAST_UPDATED = { // what is the last time the source updated their data
