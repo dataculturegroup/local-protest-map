@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.6.0
+
+ * Automations so the ACLED data is updated every Tuesday automatically via API
+
 ### v1.5.4
 
  * Updated to latest data
