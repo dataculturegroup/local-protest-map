@@ -74,22 +74,30 @@ def get_latest_data() -> List[Dict]:
     return data
 
 if __name__ == "__main__":
-    load_dotenv()  # take environment variables
-    base_dir = os.path.dirname(os.path.dirname(__file__))
-    
-    # fetch the latest data from ACLED
-    data = get_latest_data()
-    csv_filename = f'acled-{likely_update_date()}.csv'
-    csv_filepath = os.path.join(base_dir, 'public', csv_filename)
-    
-    # save the latest data to a CSV file
-    with open(csv_filepath, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=data[0].keys())
-        writer.writeheader()
-        writer.writerows(data)
-    logger.info(f"Saved data to {csv_filename}")
+    try:
+        load_dotenv()  # take environment variables
+        if not os.getenv('ACLED_API_KEY') or not os.getenv('ACLED_EMAIL'):
+            logger.error("ACLED_API_KEY and ACLED_EMAIL must be set as env vars file")
+            exit(1)
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        
+        # fetch the latest data from ACLED
+        data = get_latest_data()
+        csv_filename = f'acled-{likely_update_date()}.csv'
+        csv_filepath = os.path.join(base_dir, 'public', csv_filename)
+        
+        # save the latest data to a CSV file
+        with open(csv_filepath, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.DictWriter(f, fieldnames=data[0].keys())
+            writer.writeheader()
+            writer.writerows(data)
+        logger.info(f"Saved data to {csv_filename}")
 
-    # now update the JSON to point at this new file (kind of a hack)
-    json_filename = 'data.js'
-    update_json(csv_filename, os.path.join(base_dir, 'src', 'lib', 'util', json_filename))
-    logger.info(f"Updated {json_filename} to point to {csv_filename}")
+        # now update the JSON to point at this new file (kind of a hack)
+        json_filename = 'data.js'
+        update_json(csv_filename, os.path.join(base_dir, 'src', 'lib', 'util', json_filename))
+        logger.info(f"Updated {json_filename} to point to {csv_filename}")
+        exit(0)
+    except Exception as e:
+        logger.error(f"Error: {e}")
+        exit(1)

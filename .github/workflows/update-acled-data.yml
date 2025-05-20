@@ -27,12 +27,16 @@ jobs:
         run: |
           pip install -r requirements.txt
       
-      # Run your update script
+      # Run your update script and capture exit code
       - name: Run ACLED data update script
-        run: python scripts/update-acled-data.py
-          
-      # Commit and push any changes made by the script
+        id: update_script
+        run: |
+          python scripts/update-acled-data.py
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+
+      # Commit and push any changes made by the script if exit code is 0
       - name: Commit and push changes
+        if: steps.update_script.outputs.exit_code == '0'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
