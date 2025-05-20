@@ -11,6 +11,11 @@ on:
 jobs:
   update-acled-data:
     runs-on: ubuntu-latest
+    env:
+      # For non-sensitive data (repository variables)
+      ACLED_API_KEY: ${{ vars.ACLED_API_KEY }}
+      ACLED_EMAIL: ${{ vars.ACLED_EMAIL }}
+
     steps:
       # Check out the repository code
       - name: Checkout code
