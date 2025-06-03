@@ -1,0 +1,51 @@
+name: Update CCC Data
+
+on:
+  # Manual trigger from GitHub UI (no inputs)
+  workflow_dispatch:
+  
+  # Automatic trigger every day at 1pm EST (which is 5pm UTC)
+  schedule:
+    - cron: '0 17 * * *'
+
+jobs:
+  update-ccc-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      # Set up Python environment
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      # Install any dependencies if needed
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+      
+      # Run your update script and capture exit code
+      - name: Run CCC data update script
+        id: update_script
+        run: |
+          python scripts/update-ccc-data.py
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+
+      - name: Build Svelte app
+        run: |
+          npm install
+          npm run build
+
+      # Commit and push any changes made by the script if exit code is 0
+      - name: Commit and push changes
+        if: steps.update_script.outputs.exit_code == '0'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          git diff --staged --quiet || git commit -m "GH-Bot: Update CCC data - $(date +'%Y-%m-%d')"
+          git push
