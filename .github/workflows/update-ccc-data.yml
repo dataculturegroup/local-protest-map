@@ -35,6 +35,11 @@ jobs:
           python scripts/update-ccc-data.py
           echo "exit_code=$?" >> $GITHUB_OUTPUT
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
       - name: Build Svelte app
         run: |
           npm install

@@ -27,7 +27,12 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
-      
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
       # Run your update script and capture exit code
       - name: Run ACLED data update script
         id: update_script
