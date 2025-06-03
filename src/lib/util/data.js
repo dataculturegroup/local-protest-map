@@ -4,7 +4,7 @@ export const CANVAS_MAP_THRESHOLD = 250; // once this many events on map, use ca
 export const DEFAULT_ZOOM = '8';
 export const DEFAULT_RADIUS = '20';
 export const ACLED_URL = "acled-2025-06-02.csv";
-export const CCC_URL = "ccc-2025-05-08.csv";
+export const CCC_URL = "ccc-2025-06-03.csv";
 const FILE_NAME_DATE_FORMAT = /\d{4}-\d{2}-\d{2}/; // YYYY-MM-DD
 export const LAST_UPDATED = { // what is the last time the source updated their data
   'ACLED': new Date(ACLED_URL.match(FILE_NAME_DATE_FORMAT)[0] + 'T00:00:00'),
