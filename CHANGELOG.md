@@ -1,6 +1,10 @@
 Change Log
 ==========
 
+### v1.7.0
+
+ * Automations so the CCC data is updated, checked every day since they drop new data near the start of the month
+
 ### v1.6.0
 
  * Automations so the ACLED data is updated every Tuesday automatically via API
