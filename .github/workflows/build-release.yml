@@ -33,7 +33,7 @@ jobs:
             git config --local user.name "GitHub Action"
             git add .
             git diff --staged --quiet || git commit -m "GH-Bot: Rebuild Svelte app for release"
-            git push
+            git push origin HEAD:main
             TAG_NAME=$(git describe --tags --abbrev=0)
             RELEASE_TAG="${TAG_NAME}-release"
             git tag "$RELEASE_TAG"
