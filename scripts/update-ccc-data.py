@@ -65,7 +65,6 @@ def hash_of_file(path: str) -> str:
 
 
 if __name__ == "__main__":
-    updated_data = False
     try:
         
         # get hash of current file to check if we need to update
@@ -105,11 +104,10 @@ if __name__ == "__main__":
             logger.info(f"  Updated {json_filename} to point to {new_filename}")
             # delete the old file from public
             os.remove(current_file)
-            updated_data = True
         else:
             logger.info("  Data is up to date, no changes made.")
 
-        exit(0 if updated_data else 1)
+        exit(0)  # even if data not updated that isn't an error
     except Exception as e:
         logger.error(f"Error: {e}")
         exit(1)
