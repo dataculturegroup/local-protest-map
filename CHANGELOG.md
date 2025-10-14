@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### v1.7.2
+ 
+ * switch default to CCC
+ * fix automated CCC fetching 
+
 ### v1.7.1
 
  * Manually update CCC data (automation not working)
