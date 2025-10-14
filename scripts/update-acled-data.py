@@ -14,16 +14,20 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-ACLED_READ_URL = "https://api.acleddata.com/acled/read"
+ACLED_API_URL = "https://acleddata.com/"
 
 us_protest_filters: Dict[str, int | str] = {
-    'limit': 10,
-    'event_date': f'2025-01-01|{dt.datetime.now().strftime("%Y-%m-%d")}',
-    'event_date_where': 'BETWEEN',
+    'limit': 5000,
+    'year': 2023,
+    'year_where': '>',
+    'country': 'United States',
     'event_type': 'Protests',
-    'region': 18,  # Region ID for the North America
-    'country': 'United States'
+    #'event_date': f'2025-01-01|{dt.datetime.now().strftime("%Y-%m-%d")}',
+    #'event_date_where': 'BETWEEN',
+    #'year_where': '=',
+    # 'region': 18,  # Region ID for the North America
 }
+
 
 def likely_update_date() -> str:
     # the ACLED documentation says data is updated every monday, so find latest monday (including today)
@@ -34,6 +38,7 @@ def likely_update_date() -> str:
     else:
         most_recent_monday = today - dt.timedelta(days=days_since_monday)
     return most_recent_monday.strftime('%Y-%m-%d')
+
 
 def update_json(new_filename: str, py_file_path: str) -> str:
     # update the JSON file that feeds the interactive to point at the newly named file (hack)
@@ -52,22 +57,24 @@ def update_json(new_filename: str, py_file_path: str) -> str:
     logger.debug(f"Successfully updated {py_file_path} with new filename: {new_filename}")
     return last_filename
 
-def fetch_results(page=1) -> List[Dict]:
+
+def fetch_results(access_token: str, page=1) -> List[Dict]:
+    headers = {"Authorization": f"Bearer {access_token}"}
     # fetch a page of results from ACLED API
     params = us_protest_filters.copy()
-    params['key'] = os.getenv('ACLED_API_KEY')
-    params['email'] = os.getenv('ACLED_EMAIL')
     params['page'] = page
     #logger.info(f"{ACLED_READ_URL}?{requests.compat.urlencode(params)}")
-    return requests.get(ACLED_READ_URL, params=params).json()
+    url = ACLED_API_URL+'api/acled/read'
+    return requests.get(url, params=params, headers=headers).json()
 
-def get_latest_data() -> List[Dict]:
+
+def get_latest_data(access_token: str) -> List[Dict]:
     # grab all the data from ACLED
     logger.info("Updating ACLED data...")
     page = 1
     data = []
     while True:
-        results = fetch_results(page) 
+        results = fetch_results(access_token, page)
         logger.info(f"  page {page}: {len(results['data'])}")
         if results['count'] == 0:
             break
@@ -77,16 +84,38 @@ def get_latest_data() -> List[Dict]:
     logger.info(f"Fetched {results['count']} results.")
     return data
 
+
+def get_access_token() -> str:
+    # get the access token from env vars
+    data = {
+        "username": os.getenv('ACLED_EMAIL'),
+        "password": os.getenv('ACLED_PASSWORD'),
+        "grant_type": "password",
+        "client_id": "acled"
+    }
+    url = ACLED_API_URL+"oauth/token"
+    response = requests.post(url, data=data)
+    if response.status_code == 200:
+        data = response.json()
+        token = data.get('access_token')
+        return token
+    raise ValueError(f"Error getting access token: {response.status_code} {response.text}")
+
+
 if __name__ == "__main__":
     try:
         load_dotenv()  # take environment variables
-        if not os.getenv('ACLED_API_KEY') or not os.getenv('ACLED_EMAIL'):
-            logger.error("ACLED_API_KEY and ACLED_EMAIL must be set as env vars file")
+        if not os.getenv('ACLED_PASSWORD') or not os.getenv('ACLED_EMAIL'):
+            logger.error("ACLED_PASSWORD and ACLED_EMAIL must be set as env vars file")
             exit(1)
         base_dir = os.path.dirname(os.path.dirname(__file__))
         
         # fetch the latest data from ACLED
-        data = get_latest_data()
+        access_token = get_access_token()
+        data = get_latest_data(access_token)
+        if len(data) == 0:
+            logger.warning("No data fetched from ACLED, exiting")
+            exit(0)
         csv_filename = f'acled-{likely_update_date()}.csv'
         csv_filepath = os.path.join(base_dir, 'public', csv_filename)
         
