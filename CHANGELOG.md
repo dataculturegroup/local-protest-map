@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+### v1.7.1
+
+ * Manually update CCC data (automation not working)
+ * Add note on ACLED policy change and turn off automated updates
+
 ### v1.7.0
 
  * Automations so the CCC data is updated, checked every day since they drop new data near the start of the month
