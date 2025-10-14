@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
   
   # Automatic trigger every Tuesday at 1am EST (which is 5am UTC)
-  schedule:
-    - cron: '0 5 * * 2'
+  #schedule:
+  #  - cron: '0 5 * * 2'
 
 jobs:
   update-acled-data:

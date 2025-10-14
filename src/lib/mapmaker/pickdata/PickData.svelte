@@ -55,6 +55,12 @@
         </select>
         <small id="dataSourceHelp" class="form-text text-muted">
           {mapSettings.source} includes data through {dateStrForDisplay(LAST_UPDATED[mapSettings.source])}.
+          {#if mapSettings.source === 'ACLED'}
+            No longer being updated due to a change in ACLED data access policies.
+          {/if}
+          {#if mapSettings.source === 'CCC'}
+            Updated monthly, usually around the 5th of each month.
+          {/if}
         </small>
       </div>
 
