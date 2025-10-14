@@ -16,9 +16,33 @@ logger = logging.getLogger(__name__)
 base_dir = os.path.dirname(os.path.dirname(__file__))
 public_dir = os.path.join(base_dir, 'public')
 
-# see https://doi.org/10.7910/DVN/RI9JFU
-FILE_ID = '11584216'
-DOWNLOAD_URL = f"https://dataverse.harvard.edu/api/access/datafile/{FILE_ID}"
+DATASET_DOI = 'doi:10.7910/DVN/RI9JFU'  # Your dataset DOI from the comment
+FILENAME = 'ccc-phase3-public.csv'  # or whatever the actual filename is
+
+
+def get_latest_file_id(dataset_doi: str, filename_pattern: str = None) -> str:
+    """Get the latest file ID from a Dataverse dataset."""
+    api_url = f"https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId={dataset_doi}"
+    response = requests.get(api_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        files = data['data']['latestVersion']['files']
+
+        # If you know the filename, find it
+        if filename_pattern:
+            for file_info in files:
+                if filename_pattern in file_info['dataFile']['filename']:
+                    return file_info['dataFile']['id']
+
+        # Otherwise return the first CSV/TAB file
+        for file_info in files:
+            filename = file_info['dataFile']['filename']
+            if filename.endswith('.csv') or filename.endswith('.tab'):
+                return file_info['dataFile']['id']
+
+    raise Exception(f"Could not find file in dataset {dataset_doi}")
+
 
 def download_file(url: str, local_path: str) -> None:
     """Download a file from a given URL and save it to a local path."""
@@ -55,7 +79,8 @@ def current_ccc_file_path() -> str:
     files = [f for f in os.listdir(public_dir) if f.startswith('ccc-') and f.endswith('.csv')]
     ccc_data_filepath = os.path.join(public_dir, files[0])
     return ccc_data_filepath
-    
+
+
 def hash_of_file(path: str) -> str:
     hash_md5 = hashlib.md5()
     with open(path, "rb") as f:
@@ -78,12 +103,15 @@ if __name__ == "__main__":
         logger.info("New data:")
         with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp_file:
             tmp_csv_path = tmp_file.name
-        download_file(DOWNLOAD_URL, tmp_csv_path)
+        file_id = get_latest_file_id(DATASET_DOI, FILENAME)  # each updated version gets a new file id
+        file_url = f"https://dataverse.harvard.edu/api/access/datafile/{file_id}"
+        download_file(file_url, tmp_csv_path)
         # convert to a CSV file from a TSV file
-        with open(tmp_csv_path, 'r', encoding='utf-8') as tsv_file:
-            with open(tmp_csv_path.replace('.csv', '.tmp.csv'), 'w', encoding='utf-8') as csv_file:
+        with open(tmp_csv_path, 'r', encoding='iso-8859-1') as tsv_file:
+            with open(tmp_csv_path.replace('.csv', '.tmp.csv'), 'w', encoding='iso-8859-1') as csv_file:
                 for line in tsv_file:
                     csv_file.write(line.replace('\t', ','))
+        # make sure it is in utf-8
         os.remove(tmp_csv_path)  # remove the original TSV file
         tmp_csv_path = tmp_csv_path.replace('.csv', '.tmp.csv')
         new_hash = hash_of_file(tmp_csv_path)
