@@ -50,8 +50,8 @@
       <div class="form-group">
         <label for="dataSource">Data Source:</label>        
         <select id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
-          <option value="ACLED">ACLED</option>
           <option value="CCC">CCC</option>
+          <option value="ACLED">ACLED</option>
         </select>
         <small id="dataSourceHelp" class="form-text text-muted">
           {mapSettings.source} includes data through {dateStrForDisplay(LAST_UPDATED[mapSettings.source])}.

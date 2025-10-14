@@ -21,7 +21,7 @@
   let loadingData = $state(true);
   let computedHeight = $state(null); // throwaway placeholder used when rendering embed
   let mapSettings = $state({  // use reasonable defaults
-    source: 'ACLED',
+    source: 'CCC',
     zoom: DEFAULT_ZOOM,
     coords: [],
     radiusMiles: DEFAULT_RADIUS,
