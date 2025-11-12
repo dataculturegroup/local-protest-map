@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+### v1.8.2
+ 
+ * more ACLED feature removal cleanup
+
+### v1.8.1
+
+ * messed up release
+
 ### v1.8.0
  
  * removed ACLED due to ToS violation
