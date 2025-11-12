@@ -11,7 +11,7 @@
 
   const data = $derived({
     v: 1, // track a version in case this protocol changes in the future
-    s: mapSettings.source || 'ACLED',
+    s: mapSettings.source || 'CCC',
     c: [mapSettings.coords[0], mapSettings.coords[1]],
     z: mapSettings.zoom || DEFAULT_ZOOM,
     r: mapSettings.radiusMiles || DEFAULT_RADIUS,

@@ -7,7 +7,7 @@
   import Header from './lib/Header.svelte';
   import MapMaker from './lib/mapmaker/MapMaker.svelte';
   import Footer from './lib/Footer.svelte';
-  import { getData, isWithinRadius, ACLED_URL, DEFAULT_ZOOM, DEFAULT_RADIUS, CCC_URL, LAST_UPDATED,
+  import { getData, isWithinRadius, DEFAULT_ZOOM, DEFAULT_RADIUS, CCC_URL, LAST_UPDATED,
     randomizeColocatedEvents } from './lib/util/data.js';
   import { autoTitle } from './lib/util/string.js';
   import { marker } from 'leaflet';
@@ -26,7 +26,7 @@
     coords: [],
     radiusMiles: DEFAULT_RADIUS,
     startDate: '2025-01-01', // hack to get GMT date
-    endDate: dayjs(LAST_UPDATED['ACLED']).format('YYYY-MM-DD'), // latest date new data was pulled
+    endDate: dayjs(LAST_UPDATED['CCC']).format('YYYY-MM-DD'), // latest date new data was pulled
     width: 700,
     height: 350,
     markerIcon: 'pin',
@@ -35,13 +35,11 @@
     stateId: null,
   })
   const title = $derived.by(() => autoTitle(mapSettings));
-  let data = $state({acled: [], ccc: []});   // filled in by onMount
+  let data = $state({ccc: []});   // filled in by onMount
 
   let events = $derived.by(() =>{
     let allEvents = [];
-    if (mapSettings.source == 'ACLED') {
-      allEvents = data.acled;
-    } else if (mapSettings.source == 'CCC') {
+if (mapSettings.source == 'CCC') {
       allEvents = data.ccc;
     }
     allEvents = allEvents.filter(row => {
@@ -88,14 +86,6 @@
     }
 
     // load and normalize data from various sources
-    data.acled = await getData(ACLED_URL);
-    data.acled = data.acled.map(row => ({
-      lat: row.latitude, lon: row.longitude, date: row.event_date,
-      location: `${row.location}, ${row.admin1}`, actor: row.assoc_actor_1,
-      summary: row.notes, locRandomized: false,
-      stateId: usStates.find(s => s.name == row.admin1).id
-    }));
-    data.acled = randomizeColocatedEvents(data.acled);
     data.ccc = await getData(CCC_URL);
     data.ccc = data.ccc
       .filter(row => row.lat != "NA" && row.lon != "NA") // a very small number of rows aren't geolocated

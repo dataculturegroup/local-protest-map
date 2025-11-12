@@ -30,10 +30,8 @@
       </div>
       <div class="col-md-4">
         <p>
-          Clicking a pin on the map shows a short summary of what the protest was about. The underlying data is from two
-          groups that track protests: the 
-          <a href="https://acleddata.com/" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a> and 
-          the <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium (CCC)</a>.
+          Clicking a pin on the map shows a short summary of what the protest was about. The underlying data is from  groups track protests:
+          <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium (CCC)</a>.
         </p>
       </div>
     </div>

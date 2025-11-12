@@ -51,13 +51,10 @@
         <label for="dataSource">Data Source:</label>        
         <select id="dataSource" aria-describedby="dataSourceHelp" bind:value={mapSettings.source}>
           <option value="CCC">CCC</option>
-          <option value="ACLED">ACLED</option>
+          <option value="ACLED" disabled>ACLED (no longer supported)</option>
         </select>
         <small id="dataSourceHelp" class="form-text text-muted">
           {mapSettings.source} includes data through {dateStrForDisplay(LAST_UPDATED[mapSettings.source])}.
-          {#if mapSettings.source === 'ACLED'}
-            No longer being updated due to a change in ACLED data access policies.
-          {/if}
           {#if mapSettings.source === 'CCC'}
             Updated monthly, usually around the 5th of each month.
           {/if}

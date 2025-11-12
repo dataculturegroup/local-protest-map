@@ -109,9 +109,7 @@ $effect(() => {
   <figcaption  style="width: {width}px;">
     Created with <a href={baseUrl}>Protest Mapper</a>.
     Data last updated {dateStrForDisplay(LAST_UPDATED[source])} from
-    {#if source == "ACLED"}
-      <a href="https://www.acleddata.com" target=_new>Armed Conflict Location & Event Data Project (ACLED)</a>
-    {:else if source == "CCC"}
+    {#if source == "CCC"}
       <a href="https://ash.harvard.edu/programs/crowd-counting-consortium/" target=_new>Crowd Counting Consortium - Ash Center - Harvard Kennedy School.</a>
     {/if}.
     Map Tiles 
